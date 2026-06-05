@@ -25,6 +25,7 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * TestNG suite execution
 * Centralized configuration management
 * Reusable page actions through BasePage
+* TestNG DataProviders
 
 ---
 
@@ -104,18 +105,19 @@ Implemented scenarios:
 * Category content validation
 * Sub-category navigation
 * Product details page
+* Basic Search
+* Search With No Results
 
 Status: ✅ Complete
 
 In Progress:
-* Basic Search
+
+* Advanced Search
 
 Status: ⏳ Currently working on
 
 Planned:
 
-* Search With No Results
-* Advanced Search
 * Product Sorting
 * Product Display Options
 * Product View Modes

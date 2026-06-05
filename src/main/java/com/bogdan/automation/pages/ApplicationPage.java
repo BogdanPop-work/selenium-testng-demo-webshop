@@ -23,4 +23,8 @@ public class ApplicationPage extends BasePage {
 	public void openRegisterPage() {
 		openUrl(ConfigReader.getProperty("baseUrl") + "/register");
 	}
+
+	public void openSearchPage() {
+		driver.get(ConfigReader.getProperty("baseUrl") + "/search");
+	}
 }
