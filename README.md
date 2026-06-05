@@ -2,7 +2,7 @@
 
 ## Overview
 
-UI Test Automation Framework for Tricentis Demo Web Shop built with:
+UI Test Automation Framework for Tricentis Demo Web Shop built using:
 
 * Java 21
 * Selenium WebDriver 4
@@ -10,7 +10,7 @@ UI Test Automation Framework for Tricentis Demo Web Shop built with:
 * Maven
 * WebDriverManager
 
-The framework follows the Page Object Model (POM) design pattern and focuses on scalability, maintainability, and real-world automation practices.
+The framework follows the Page Object Model (POM) design pattern and is being developed incrementally to simulate a real-world automation project.
 
 ---
 
@@ -21,8 +21,33 @@ The framework follows the Page Object Model (POM) design pattern and focuses on 
 * Configurable headless execution
 * Explicit waits
 * Dynamic test data generation
-* TestNG grouping
+* TestNG groups
+* TestNG suite execution
 * Centralized configuration management
+* Reusable page actions through BasePage
+
+---
+
+## Project Structure
+
+```text
+src
+├── main
+│   └── java
+│       └── com.bogdan.automation
+│           ├── driver
+│           ├── pages
+│           └── utils
+│
+└── test
+    └── java
+        └── com.bogdan.automation
+            ├── base
+            └── tests
+                ├── smoke
+                ├── authentication
+                └── registration
+```
 
 ---
 
@@ -47,10 +72,10 @@ Status: ✅ Complete
 Implemented scenarios:
 
 * Successful login
-* Invalid password
-* Invalid email
-* Empty email
-* Empty password
+* Login with invalid password
+* Login with invalid email
+* Login with empty email
+* Login with empty password
 * Successful logout
 
 Status: ✅ Complete
@@ -71,32 +96,47 @@ Status: ✅ Complete
 
 ---
 
-## Current Project Structure
+## TestNG Suites
+
+### Smoke Suite
+
+Runs only critical application health checks.
+
+File:
 
 ```text
-src
-├── main
-│   └── java
-│       └── com.bogdan.automation
-│           ├── driver
-│           ├── pages
-│           └── utils
-│
-└── test
-    └── java
-        └── com.bogdan.automation
-            ├── base
-            └── tests
-                ├── smoke
-                ├── authentication
-                └── registration
+testng-smoke.xml
 ```
+
+Included tests:
+
+* Application Smoke Tests
+
+---
+
+### Regression Suite
+
+Runs all implemented automated tests.
+
+File:
+
+```text
+testng-regression.xml
+```
+
+Included tests:
+
+* Smoke Tests
+* Authentication Tests
+* Registration Tests
+
+As new phases are implemented, they will automatically become part of the regression suite.
 
 ---
 
 ## Configuration
 
-Example:
+Example configuration:
 
 ```properties
 browser=chrome
@@ -104,7 +144,15 @@ headless=false
 baseUrl=https://demowebshop.tricentis.com
 ```
 
+### Supported Browsers
+
+* Chrome
+* Firefox
+* Edge
+
 ### Headless Execution
+
+To run tests in headless mode:
 
 ```properties
 headless=true
@@ -121,6 +169,8 @@ Generates unique email addresses for registration tests:
 ```java
 TestDataGenerator.generateUniqueEmail();
 ```
+
+This prevents failures caused by duplicate registration attempts.
 
 ---
 
@@ -167,11 +217,29 @@ Status: ⏳ Planned
 
 ## Future Framework Enhancements
 
-* TestNG XML Suite Execution
-* Parallel Execution
-* Retry Analyzer
-* Screenshots on Failure
-* Extent Reports
-* GitHub Actions CI/CD
+* Parallel execution support
+* Retry Analyzer for flaky tests
+* Screenshot capture on failure
+* Extent Reports integration
+* GitHub Actions CI/CD pipeline
+* Jenkins integration
+
+---
+
+## How to Run
+
+### Run Smoke Suite
+
+```text
+Run As → TestNG Suite
+testng-smoke.xml
+```
+
+### Run Regression Suite
+
+```text
+Run As → TestNG Suite
+testng-regression.xml
+```
 
 ---

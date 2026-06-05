@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Regression Suite">
+
+    <test name="Regression Tests">
+
+        <classes>
+            <class name="com.bogdan.automation.tests.smoke.ApplicationSmokeTest"/>
+            <class name="com.bogdan.automation.tests.authentication.LoginTests"/>
+            <class name="com.bogdan.automation.tests.registration.RegistrationTests"/>
+        </classes>
+
+    </test>
+
+</suite>
