@@ -1,30 +1,77 @@
-# Selenium TestNG Demo Web Shop
+# Demo Web Shop Automation Framework
 
-UI test automation framework built using Java, Selenium WebDriver, TestNG, Maven and Page Object Model (POM).
+## Overview
 
-The project automates the Demo Web Shop application:
+UI Test Automation Framework for Tricentis Demo Web Shop built with:
 
-https://demowebshop.tricentis.com
-
----
-
-## Tech Stack
-
-* Java
-* Selenium WebDriver
+* Java 21
+* Selenium WebDriver 4
 * TestNG
 * Maven
 * WebDriverManager
-* Git
-* GitHub
+
+The framework follows the Page Object Model (POM) design pattern and focuses on scalability, maintainability, and real-world automation practices.
 
 ---
 
-## Framework Design
+## Framework Features
 
-The framework follows the Page Object Model (POM) design pattern.
+* Page Object Model (POM)
+* Cross-browser execution
+* Configurable headless execution
+* Explicit waits
+* Dynamic test data generation
+* TestNG grouping
+* Centralized configuration management
 
-### Project Structure
+---
+
+## Completed Phases
+
+### Phase 1 – Smoke / Application Health
+
+Implemented scenarios:
+
+* Application loads successfully
+* Register link is visible
+* Login link is visible
+* Search box is visible
+* Main categories are displayed
+
+Status: ✅ Complete
+
+---
+
+### Phase 2 – Authentication
+
+Implemented scenarios:
+
+* Successful login
+* Invalid password
+* Invalid email
+* Empty email
+* Empty password
+* Successful logout
+
+Status: ✅ Complete
+
+---
+
+### Phase 3 – Registration
+
+Implemented scenarios:
+
+* Successful registration
+* Registration with existing email
+* Registration with empty required fields
+* Registration with password mismatch
+* Registration with password below minimum length
+
+Status: ✅ Complete
+
+---
+
+## Current Project Structure
 
 ```text
 src
@@ -41,131 +88,90 @@ src
             ├── base
             └── tests
                 ├── smoke
-                └── authentication
+                ├── authentication
+                └── registration
 ```
 
-### Core Components
+---
 
-#### DriverFactory
+## Configuration
 
-Responsible for browser initialization and management.
+Example:
 
-#### ConfigReader
+```properties
+browser=chrome
+headless=false
+baseUrl=https://demowebshop.tricentis.com
+```
 
-Loads configuration values from the properties file.
+### Headless Execution
 
-#### BaseTest
-
-Provides common test setup and teardown methods.
-
-#### BasePage
-
-Contains reusable page actions shared by all page objects.
-
-#### Page Objects
-
-* ApplicationPage
-* HomePage
-* LoginPage
+```properties
+headless=true
+```
 
 ---
 
-## Implemented Test Suites
+## Utility Components
 
-### Smoke Suite
+### TestDataGenerator
 
-The smoke suite verifies that the application is available and the main functionality is accessible.
+Generates unique email addresses for registration tests:
 
-#### Covered Scenarios
-
-* Application loads successfully
-* Login page is accessible
-* Register page is accessible
-* Header navigation is visible
-* Main categories are visible
+```java
+TestDataGenerator.generateUniqueEmail();
+```
 
 ---
 
-### Authentication Suite
+## Upcoming Phases
 
-The authentication suite validates user login and logout functionality.
+### Phase 4 – Product Catalog
 
-#### Covered Scenarios
+Planned scenarios:
 
-* User can login with valid credentials
-* User cannot login with invalid password
-* User cannot login with invalid email
-* User cannot login with empty email
-* User cannot login with empty password
-* User can logout successfully
+* Category navigation
+* Product details page validation
+* Product search
+* Product information verification
 
----
-
-## Current Progress
-
-### Framework Foundation
-
-* [x] Maven project setup
-* [x] Selenium WebDriver integration
-* [x] TestNG integration
-* [x] WebDriverManager integration
-* [x] Configuration management
-* [x] Driver factory implementation
-* [x] Base test setup and teardown
-* [x] GitHub integration
-
-### Page Object Model
-
-* [x] BasePage
-* [x] ApplicationPage
-* [x] HomePage
-* [x] LoginPage
-
-### Smoke Testing
-
-* [x] Application health validation
-* [x] Navigation validation
-* [x] Category visibility validation
-
-### Authentication Testing
-
-* [x] Login validation
-* [x] Negative login scenarios
-* [x] Logout validation
+Status: ⏳ Planned
 
 ---
 
-## Roadmap
+### Phase 5 – Shopping Cart
 
-### Registration
+Planned scenarios:
 
-* [ ] User registration
-* [ ] Duplicate email validation
-* [ ] Registration field validation
+* Add product to cart
+* Update quantity
+* Remove product
+* Verify cart totals
 
-### Product Catalog
+Status: ⏳ Planned
 
-* [ ] Category navigation
-* [ ] Product details validation
-* [ ] Product search
+---
 
-### Shopping Cart
+### Phase 6 – Checkout
 
-* [ ] Add product to cart
-* [ ] Update quantity
-* [ ] Remove product from cart
+Planned scenarios:
 
-### Checkout
+* Guest checkout
+* Registered user checkout
+* Order confirmation
+* End-to-end purchase flow
 
-* [ ] Checkout flow
-* [ ] Order confirmation
-* [ ] End-to-end purchase scenario
+Status: ⏳ Planned
 
-### Framework Enhancements
+---
 
-- [x] Configurable headless execution
-- [ ] Explicit waits utility
-- [ ] Screenshots on failure
-- [ ] Extent Reports integration
-- [ ] CI/CD pipeline with GitHub Actions
+## Future Framework Enhancements
+
+* TestNG XML Suite Execution
+* Parallel Execution
+* Retry Analyzer
+* Screenshots on Failure
+* Extent Reports
+* GitHub Actions CI/CD
+
 ---
