@@ -4,9 +4,15 @@
 
     <test name="Smoke Tests">
 
-        <classes>
-            <class name="com.bogdan.automation.tests.smoke.ApplicationSmokeTest"/>
-        </classes>
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+
+        <packages>
+            <package name="com.bogdan.automation.tests.*"/>
+        </packages>
 
     </test>
 

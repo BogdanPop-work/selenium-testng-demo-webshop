@@ -96,6 +96,34 @@ Status: ✅ Complete
 
 ---
 
+### Phase 4 – Product Catalog
+
+Implemented scenarios:
+
+* Category navigation
+* Category content validation
+* Sub-category navigation
+* Product details page
+
+Status: ✅ Complete
+
+In Progress:
+* Basic Search
+
+Status: ⏳ Currently working on
+
+Planned:
+
+* Search With No Results
+* Advanced Search
+* Product Sorting
+* Product Display Options
+* Product View Modes
+
+Status: ⬜ Not started
+
+---
+
 ## TestNG Suites
 
 ### Smoke Suite
@@ -174,20 +202,26 @@ This prevents failures caused by duplicate registration attempts.
 
 ---
 
-## Upcoming Phases
+## Test Data Management
 
-### Phase 4 – Product Catalog
+### TestNG DataProviders
 
-Planned scenarios:
+The framework uses TestNG DataProviders for data-driven testing.
 
-* Category navigation
-* Product details page validation
-* Product search
-* Product information verification
+Current usage:
 
-Status: ⏳ Planned
+- Product category navigation
+- Product subcategory navigation
+
+Benefits:
+
+- Eliminates duplicate test methods
+- Improves maintainability
+- Simplifies test coverage expansion
 
 ---
+## Upcoming Phases
+
 
 ### Phase 5 – Shopping Cart
 
@@ -198,7 +232,7 @@ Planned scenarios:
 * Remove product
 * Verify cart totals
 
-Status: ⏳ Planned
+Status: ⬜ Not started
 
 ---
 
@@ -211,7 +245,7 @@ Planned scenarios:
 * Order confirmation
 * End-to-end purchase flow
 
-Status: ⏳ Planned
+Status: ⬜ Not started
 
 ---
 

@@ -4,11 +4,16 @@
 
     <test name="Regression Tests">
 
-        <classes>
-            <class name="com.bogdan.automation.tests.smoke.ApplicationSmokeTest"/>
-            <class name="com.bogdan.automation.tests.authentication.LoginTests"/>
-            <class name="com.bogdan.automation.tests.registration.RegistrationTests"/>
-        </classes>
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="regression"/>
+            </run>
+        </groups>
+
+        <packages>
+            <package name="com.bogdan.automation.tests.*"/>
+        </packages>
 
     </test>
 
