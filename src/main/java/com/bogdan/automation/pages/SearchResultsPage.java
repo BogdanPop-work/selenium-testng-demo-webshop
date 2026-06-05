@@ -1,5 +1,7 @@
 package com.bogdan.automation.pages;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -23,7 +25,8 @@ public class SearchResultsPage extends BasePage {
 	private By noResultsMessage = By.cssSelector(".search-results .result");
 	private By priceFromField = By.id("Pf");
 	private By priceToField = By.id("Pt");
-	private By productPrices = By.cssSelector(".actual-price");
+	private By productPrices = By.cssSelector(".search-results .actual-price");
+	private By sortDropdown = By.id("products-orderby");
 
 	public SearchResultsPage(WebDriver driver) {
 		super(driver);
@@ -54,14 +57,6 @@ public class SearchResultsPage extends BasePage {
 		return getText(noResultsMessage);
 	}
 
-	public void enableAdvancedSearch() {
-		click(advancedSearchCheckbox);
-	}
-
-	public void selectCategory(String categoryName) {
-		selectByVisibleText(categoryDropdown, categoryName);
-	}
-
 	public boolean doAllResultTitlesContain(String keyword) {
 		List<WebElement> titles = driver.findElements(productTitles);
 
@@ -74,16 +69,28 @@ public class SearchResultsPage extends BasePage {
 		return true;
 	}
 
+	public void enableAdvancedSearch() {
+		click(advancedSearchCheckbox);
+	}
+
+	public void selectCategory(String categoryName) {
+		selectByVisibleText(categoryDropdown, categoryName);
+	}
+
+	public void enableSearchSubcategories() {
+		click(searchSubcategoriesCheckbox);
+	}
+
+	public void enableSearchInDescriptions() {
+		click(searchDescriptionsCheckbox);
+	}
+
 	public void advancedSearchByCategory(String keyword, String categoryName) {
 		type(searchKeywordField, keyword);
 		enableAdvancedSearch();
 		selectCategory(categoryName);
 		enableSearchSubcategories();
 		click(searchButton);
-	}
-
-	public void enableSearchInDescriptions() {
-		click(searchDescriptionsCheckbox);
 	}
 
 	public void advancedSearchInDescriptions(String keyword) {
@@ -94,28 +101,18 @@ public class SearchResultsPage extends BasePage {
 		click(searchButton);
 	}
 
-	public void enableSearchSubcategories() {
-		click(searchSubcategoriesCheckbox);
-	}
-
 	public void advancedSearchByPriceRange(String keyword, String minPrice, String maxPrice) {
-
 		type(searchKeywordField, keyword);
-
 		enableAdvancedSearch();
-
 		type(priceFromField, minPrice);
 		type(priceToField, maxPrice);
-
 		click(searchButton);
 	}
 
 	public boolean areAllPricesWithinRange(double minPrice, double maxPrice) {
-
 		List<WebElement> prices = driver.findElements(productPrices);
 
 		for (WebElement price : prices) {
-
 			double value = Double.parseDouble(price.getText().trim());
 
 			if (value < minPrice || value > maxPrice) {
@@ -125,4 +122,73 @@ public class SearchResultsPage extends BasePage {
 
 		return true;
 	}
+
+	public void selectSortOption(String option) {
+		selectByVisibleText(sortDropdown, option);
+	}
+
+	public List<String> getProductTitles() {
+		List<WebElement> titleElements = driver.findElements(productTitles);
+		List<String> titles = new ArrayList<>();
+
+		for (WebElement titleElement : titleElements) {
+			titles.add(titleElement.getText().trim());
+		}
+
+		return titles;
+	}
+
+	public boolean areProductsSortedAscending() {
+		List<String> actualTitles = getProductTitles();
+		List<String> expectedTitles = new ArrayList<>(actualTitles);
+
+		Collections.sort(expectedTitles);
+
+		return actualTitles.equals(expectedTitles);
+	}
+
+	public boolean areProductsSortedDescending() {
+		List<String> actualTitles = getProductTitles();
+		List<String> expectedTitles = new ArrayList<>(actualTitles);
+
+		expectedTitles.sort(Collections.reverseOrder());
+
+		return actualTitles.equals(expectedTitles);
+	}
+
+	public List<Double> getProductPrices() {
+
+		List<WebElement> priceElements = driver.findElements(productPrices);
+
+		List<Double> prices = new ArrayList<>();
+
+		for (WebElement priceElement : priceElements) {
+			prices.add(Double.parseDouble(priceElement.getText().trim()));
+		}
+
+		return prices;
+	}
+
+	public boolean arePricesSortedAscending() {
+
+		List<Double> actualPrices = getProductPrices();
+
+		List<Double> expectedPrices = new ArrayList<>(actualPrices);
+
+		Collections.sort(expectedPrices);
+
+		return actualPrices.equals(expectedPrices);
+	}
+
+	public boolean arePricesSortedDescending() {
+
+		List<Double> actualPrices = getProductPrices();
+
+		List<Double> expectedPrices = new ArrayList<>(actualPrices);
+
+		expectedPrices.sort(Collections.reverseOrder());
+
+		return actualPrices.equals(expectedPrices);
+	}
+
 }

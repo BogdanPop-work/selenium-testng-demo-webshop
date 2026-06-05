@@ -9,9 +9,17 @@ public class CategoryPage extends BasePage {
 	private By productItems = By.cssSelector(".product-item");
 	private By subcategoryItems = By.cssSelector(".sub-category-item");
 	private By firstProductTitle = By.cssSelector(".product-title a");
+	private By pageSizeDropdown = By.id("products-pagesize");
+	private By viewModeDropdown = By.id("products-viewmode");
+	private By productGrid = By.cssSelector(".product-grid");
+	private By productList = By.cssSelector(".product-list");
 
 	public CategoryPage(WebDriver driver) {
 		super(driver);
+	}
+
+	public void selectPageSize(String pageSize) {
+		selectByVisibleText(pageSizeDropdown, pageSize);
 	}
 
 	public String getCategoryTitle() {
@@ -44,5 +52,14 @@ public class CategoryPage extends BasePage {
 
 	public void openFirstProductDetails() {
 		click(firstProductTitle);
+	}
+	public void selectViewMode(String viewMode) {
+	    selectByVisibleText(viewModeDropdown, viewMode);
+	}
+	public boolean isGridViewDisplayed() {
+	    return driver.findElements(productGrid).size() > 0;
+	}
+	public boolean isListViewDisplayed() {
+	    return driver.findElements(productList).size() > 0;
 	}
 }

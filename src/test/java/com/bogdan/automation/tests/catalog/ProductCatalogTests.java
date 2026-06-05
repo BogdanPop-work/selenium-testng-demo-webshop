@@ -86,4 +86,41 @@ public class ProductCatalogTests extends BaseTest {
 
 		Assert.assertTrue(productPage.isAddToCartButtonDisplayed(), "Add to cart button is not displayed");
 	}
+
+	@DataProvider(name = "pageSizes")
+	public Object[][] pageSizes() {
+		return new Object[][] { { "4", 4 }, { "8", 8 }, { "12", 12 } };
+	}
+
+	@Test(dataProvider = "pageSizes", groups = { "catalog", "regression" })
+	public void verifyUserCanChangeProductDisplayCount(String pageSize, int expectedMaximumProducts) {
+		homePage.openCategoryByUrl("/apparel-shoes");
+
+		categoryPage.selectPageSize(pageSize);
+
+		Assert.assertTrue(categoryPage.getProductCount() <= expectedMaximumProducts,
+				"More products are displayed than expected for page size: " + pageSize);
+	}
+
+	@DataProvider(name = "viewModes")
+	public Object[][] viewModes() {
+		return new Object[][] { { "Grid" }, { "List" } };
+	}
+
+	@Test(dataProvider = "viewModes", groups = { "catalog", "regression" })
+	public void verifyUserCanChangeProductViewMode(String viewMode) {
+
+		homePage.openCategoryByUrl("/apparel-shoes");
+
+		categoryPage.selectViewMode(viewMode);
+
+		if (viewMode.equals("Grid")) {
+
+			Assert.assertTrue(categoryPage.isGridViewDisplayed(), "Grid view is not displayed");
+		} else {
+
+			Assert.assertTrue(categoryPage.isListViewDisplayed(), "List view is not displayed");
+		}
+	}
+
 }

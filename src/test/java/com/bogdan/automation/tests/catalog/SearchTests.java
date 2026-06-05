@@ -37,7 +37,7 @@ public class SearchTests extends BaseTest {
 	@Test(groups = { "catalog", "regression" })
 	public void verifySearchWithInvalidKeywordShowsNoResults() {
 
-		applicationPage.openUrl("https://demowebshop.tricentis.com/search");
+		applicationPage.openSearchPage();
 
 		searchResultsPage.searchForProduct("zzzzzzzzzzzzzzzzzz");
 
@@ -83,4 +83,52 @@ public class SearchTests extends BaseTest {
 				"Products outside the requested price range were returned");
 	}
 
+	@Test(groups = { "catalog", "regression" })
+	public void verifyProductsCanBeSortedByNameAscending() {
+
+		applicationPage.openSearchPage();
+
+		searchResultsPage.searchForProduct("gift");
+
+		searchResultsPage.selectSortOption("Name: A to Z");
+
+		Assert.assertTrue(searchResultsPage.areProductsSortedAscending(), "Products are not sorted by name ascending");
+	}
+
+	@Test(groups = { "catalog", "regression" })
+	public void verifyProductsCanBeSortedByNameDescending() {
+
+		applicationPage.openSearchPage();
+
+		searchResultsPage.searchForProduct("gift");
+
+		searchResultsPage.selectSortOption("Name: Z to A");
+
+		Assert.assertTrue(searchResultsPage.areProductsSortedDescending(),
+				"Products are not sorted by name descending");
+	}
+
+	@Test(groups = { "catalog", "regression" })
+	public void verifyProductsCanBeSortedByPriceAscending() {
+
+		applicationPage.openSearchPage();
+
+		searchResultsPage.searchForProduct("gift");
+
+		searchResultsPage.selectSortOption("Price: Low to High");
+
+		Assert.assertTrue(searchResultsPage.arePricesSortedAscending(), "Products are not sorted by price ascending");
+	}
+
+	@Test(groups = { "catalog", "regression" })
+	public void verifyProductsCanBeSortedByPriceDescending() {
+
+		applicationPage.openSearchPage();
+
+		searchResultsPage.searchForProduct("gift");
+
+		searchResultsPage.selectSortOption("Price: High to Low");
+
+		Assert.assertTrue(searchResultsPage.arePricesSortedDescending(), "Products are not sorted by price descending");
+	}
 }
