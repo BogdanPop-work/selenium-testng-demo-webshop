@@ -21,11 +21,11 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * Configurable headless execution
 * Explicit waits
 * Dynamic test data generation
+* TestNG DataProviders
 * TestNG groups
 * TestNG suite execution
 * Centralized configuration management
 * Reusable page actions through BasePage
-* TestNG DataProviders
 
 ---
 
@@ -47,7 +47,8 @@ src
             └── tests
                 ├── smoke
                 ├── authentication
-                └── registration
+                ├── registration
+                └── catalog
 ```
 
 ---
@@ -107,16 +108,18 @@ Implemented scenarios:
 * Product details page
 * Basic Search
 * Search With No Results
+* Advanced Search by Category
+* Advanced Search with Subcategories
+* Advanced Search in Product Descriptions
+* Advanced Search by Price Range
 
-Status: ✅ Complete
+Status: ⏳ In Progress
 
-In Progress:
+Notes:
 
-* Advanced Search
+* Manufacturer filtering was investigated but is currently excluded from the automation suite because the Demo Web Shop application does not return valid search results when filtering by the only available manufacturer ("Tricentis"). The functionality appears to be non-functional in the demo application.
 
-Status: ⏳ Currently working on
-
-Planned:
+Remaining Product Catalog coverage:
 
 * Product Sorting
 * Product Display Options
@@ -159,6 +162,8 @@ Included tests:
 * Smoke Tests
 * Authentication Tests
 * Registration Tests
+* Product Catalog Tests
+* Search Tests
 
 As new phases are implemented, they will automatically become part of the regression suite.
 
@@ -212,18 +217,18 @@ The framework uses TestNG DataProviders for data-driven testing.
 
 Current usage:
 
-- Product category navigation
-- Product subcategory navigation
+* Product category navigation
+* Product subcategory navigation
 
 Benefits:
 
-- Eliminates duplicate test methods
-- Improves maintainability
-- Simplifies test coverage expansion
+* Eliminates duplicate test methods
+* Improves maintainability
+* Simplifies test coverage expansion
 
 ---
-## Upcoming Phases
 
+## Upcoming Phases
 
 ### Phase 5 – Shopping Cart
 

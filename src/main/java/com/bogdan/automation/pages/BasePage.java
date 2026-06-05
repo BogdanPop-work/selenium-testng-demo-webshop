@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -53,5 +54,11 @@ public class BasePage {
 
     protected boolean isDisplayed(By locator) {
         return findVisible(locator).isDisplayed();
+    }
+    
+    protected void selectByVisibleText(By locator, String visibleText) {
+        WebElement element = findVisible(locator);
+        Select select = new Select(element);
+        select.selectByVisibleText(visibleText);
     }
 }
