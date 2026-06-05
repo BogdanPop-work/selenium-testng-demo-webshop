@@ -163,9 +163,9 @@ The authentication suite validates user login and logout functionality.
 
 ### Framework Enhancements
 
-* [ ] Explicit waits utility
-* [ ] Screenshots on failure
-* [ ] Extent Reports integration
-* [ ] CI/CD pipeline with GitHub Actions
-
+- [x] Configurable headless execution
+- [ ] Explicit waits utility
+- [ ] Screenshots on failure
+- [ ] Extent Reports integration
+- [ ] CI/CD pipeline with GitHub Actions
 ---
