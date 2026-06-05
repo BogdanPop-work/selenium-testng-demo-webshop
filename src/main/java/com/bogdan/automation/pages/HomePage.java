@@ -14,6 +14,9 @@ public class HomePage extends BasePage {
 	private By wishlistLink = By.cssSelector("a.ico-wishlist");
 	private By searchBox = By.id("small-searchterms");
 
+	private By accountLink = By.cssSelector("a.account");
+	private By logoutLink = By.cssSelector("a.ico-logout");
+
 	private By booksCategory = By.cssSelector(".top-menu a[href='/books']");
 	private By computersCategory = By.cssSelector(".top-menu a[href='/computers']");
 	private By electronicsCategory = By.cssSelector(".top-menu a[href='/electronics']");
@@ -76,5 +79,21 @@ public class HomePage extends BasePage {
 
 	public void clickLoginLink() {
 		driver.findElement(loginLink).click();
+	}
+
+	public boolean isAccountLinkDisplayed() {
+		return isDisplayed(accountLink);
+	}
+
+	public String getLoggedInAccountEmail() {
+		return getText(accountLink);
+	}
+
+	public boolean isLogoutLinkDisplayed() {
+		return isDisplayed(logoutLink);
+	}
+
+	public void clickLogout() {
+		click(logoutLink);
 	}
 }
