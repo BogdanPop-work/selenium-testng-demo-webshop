@@ -28,6 +28,9 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * Reusable page actions through BasePage
 * Dynamic element attribute handling
 * Authenticated end-to-end user flows
+* Configurable product automation
+* Dynamic price calculation
+* Randomized test data selection
 
 ---
 
@@ -39,6 +42,7 @@ src
 │   └── java
 │       └── com.bogdan.automation
 │           ├── driver
+│           ├── models
 │           ├── pages
 │           └── utils
 │
@@ -151,6 +155,8 @@ Notes:
 
 ### Phase 5 – Shopping Cart
 
+Status: ⏳ In Progress
+
 #### Step 1 – Basic Shopping Cart Functionality
 
 Implemented scenarios:
@@ -187,6 +193,7 @@ Notes:
 
 * Shopping Cart tests are executed using an authenticated user.
 * Tests follow a realistic user flow:
+
   * Login
   * Search product
   * Open product page
@@ -196,27 +203,43 @@ Notes:
 
 ---
 
-## Upcoming Phases
-
-### Phase 5 – Shopping Cart Continued
-
 #### Step 4 – Configurable Products
 
-Planned scenarios:
+Implemented scenarios:
 
-* Configure "Build your own computer"
+* Configure "Build your own expensive computer"
 * Select processor options
 * Select RAM options
 * Select HDD options
-* Select operating system options
 * Select optional software
-* Verify dynamic price updates
+* Verify calculated price matches application price
 * Add configured product to cart
 * Verify selected configuration in cart
+* Verify shopping cart subtotal
+* Verify shopping cart total
 
-Status: ⬜ Not started
+Advanced scenarios:
+
+* Fixed configuration validation
+* Random configuration generation
+* Dynamic expected price calculation
+* Randomized configuration verification against cart data
+
+Status: ✅ Complete
+
+Notes:
+
+* Configurable products use a dedicated Page Object Model.
+* Product options are stored using Maps for improved maintainability.
+* Expected prices are calculated dynamically based on selected options.
+* Randomized configurations are generated using the Randomizer utility.
+* Shopping Cart validations verify both configuration data and pricing calculations.
 
 ---
+
+## Upcoming Phases
+
+### Phase 5 – Shopping Cart Continued
 
 #### Step 5 – Gift Cards
 
@@ -310,8 +333,10 @@ Example configuration:
 browser=chrome
 headless=false
 baseUrl=https://demowebshop.tricentis.com
+
 validEmail=automation_tester@test.com
 validPassword=Password123!
+
 invalidEmail=invalid@test.com
 invalidPassword=WrongPassword123
 ```
@@ -344,6 +369,26 @@ TestDataGenerator.generateUniqueEmail();
 
 This prevents failures caused by duplicate registration attempts.
 
+---
+
+### Randomizer
+
+Provides reusable random data selection utilities.
+
+Current usage:
+
+* Random configurable computer generation
+* Random selection from Maps
+* Random selection from Lists
+
+Benefits:
+
+* Improves test coverage
+* Enables dynamic test execution
+* Reduces hardcoded test data
+
+---
+
 ### BasePage Utilities
 
 Common reusable functionality includes:
@@ -355,6 +400,28 @@ Common reusable functionality includes:
 * Shared page operations
 
 These utilities reduce duplication and improve framework maintainability.
+
+---
+
+## Models
+
+### ComputerConfiguration
+
+Represents a configurable computer build.
+
+Current usage:
+
+* Fixed configuration testing
+* Random configuration testing
+* Dynamic price calculation
+* Shopping Cart configuration verification
+
+Benefits:
+
+* Encapsulates configuration data
+* Improves test readability
+* Simplifies validation logic
+* Supports future configurable products
 
 ---
 
@@ -380,12 +447,34 @@ Benefits:
 
 ---
 
+## Current Automation Coverage
+
+```text
+Phase 1 - Smoke                    ✅ Complete
+Phase 2 - Authentication           ✅ Complete
+Phase 3 - Registration             ✅ Complete
+Phase 4 - Product Catalog          ✅ Complete
+
+Phase 5 - Shopping Cart
+  Step 1 - Basic Cart              ✅ Complete
+  Step 2 - Cart Updates            ✅ Complete
+  Step 3 - Cart Header             ✅ Complete
+  Step 4 - Configurable Products   ✅ Complete
+  Step 5 - Gift Cards              ⬜ Not Started
+  Step 6 - Download-able Products   ⬜ Not Started
+
+Phase 6 - Checkout                 ⬜ Not Started
+```
+
+---
+
 ## Future Framework Enhancements
 
 * Parallel execution support
 * Retry Analyzer for flaky tests
 * Screenshot capture on failure
 * Extent Reports integration
+* Logging framework integration
 * GitHub Actions CI/CD pipeline
 * Jenkins integration
 

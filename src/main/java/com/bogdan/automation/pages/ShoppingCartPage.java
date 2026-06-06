@@ -18,9 +18,17 @@ public class ShoppingCartPage extends BasePage {
 	private By cartTotal = By.cssSelector(".order-total strong");
 	private By cartRows = By.cssSelector(".cart-item-row");
 	private By shoppingCartQuantity = By.cssSelector("span.cart-qty");
+	private By unitPrice = By.cssSelector(".product-unit-price");
+	private By subtotal = By.cssSelector(".product-subtotal");
+	private By orderTotal = By.cssSelector(".order-total");
+	private By productAttributes = By.cssSelector(".cart-item-row .attributes");
 
 	public ShoppingCartPage(WebDriver driver) {
 		super(driver);
+	}
+
+	public String getProductAttributes() {
+		return getText(productAttributes);
 	}
 
 	public String getPageTitleText() {
@@ -80,5 +88,17 @@ public class ShoppingCartPage extends BasePage {
 
 	public void waitUntilHeaderCartQuantityIs(String expectedQuantity) {
 		wait.until(ExpectedConditions.textToBe(shoppingCartQuantity, expectedQuantity));
+	}
+
+	public double getUnitPrice() {
+		return Double.parseDouble(getText(unitPrice));
+	}
+
+	public double getSubtotal() {
+		return Double.parseDouble(getText(subtotal));
+	}
+
+	public double getOrderTotal() {
+		return Double.parseDouble(getText(orderTotal));
 	}
 }
