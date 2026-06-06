@@ -3,6 +3,8 @@ package com.bogdan.automation.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import com.bogdan.automation.utils.ConfigReader;
+
 public class CategoryPage extends BasePage {
 
 	private By categoryTitle = By.cssSelector(".page-title h1");
@@ -61,5 +63,12 @@ public class CategoryPage extends BasePage {
 	}
 	public boolean isListViewDisplayed() {
 	    return driver.findElements(productList).size() > 0;
+	}
+	public void openCategory(String categoryUrl) {
+	    driver.get(ConfigReader.getProperty("baseUrl") + categoryUrl);
+	}
+
+	public void openProduct(String productName) {
+	    click(By.linkText(productName));
 	}
 }

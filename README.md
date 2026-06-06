@@ -26,6 +26,8 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * TestNG suite execution
 * Centralized configuration management
 * Reusable page actions through BasePage
+* Dynamic element attribute handling
+* Authenticated end-to-end user flows
 
 ---
 
@@ -48,7 +50,8 @@ src
                 ├── smoke
                 ├── authentication
                 ├── registration
-                └── catalog
+                ├── catalog
+                └── shoppingcart
 ```
 
 ---
@@ -146,150 +149,56 @@ Notes:
 
 ---
 
-## TestNG Suites
-
-### Smoke Suite
-
-Runs only critical application health checks.
-
-File:
-
-```text
-testng-smoke.xml
-```
-
-Included tests:
-
-* Application Smoke Tests
-
----
-
-### Regression Suite
-
-Runs all implemented automated tests.
-
-File:
-
-```text
-testng-regression.xml
-```
-
-Included tests:
-
-* Smoke Tests
-* Authentication Tests
-* Registration Tests
-* Product Catalog Tests
-* Search Tests
-
-As new phases are implemented, they will automatically become part of the regression suite.
-
----
-
-## Configuration
-
-Example configuration:
-
-```properties
-browser=chrome
-headless=false
-baseUrl=https://demowebshop.tricentis.com
-```
-
-### Supported Browsers
-
-* Chrome
-* Firefox
-* Edge
-
-### Headless Execution
-
-To run tests in headless mode:
-
-```properties
-headless=true
-```
-
----
-
-## Utility Components
-
-### TestDataGenerator
-
-Generates unique email addresses for registration tests:
-
-```java
-TestDataGenerator.generateUniqueEmail();
-```
-
-This prevents failures caused by duplicate registration attempts.
-
----
-
-## Test Data Management
-
-### TestNG DataProviders
-
-The framework uses TestNG DataProviders for data-driven testing.
-
-Current usage:
-
-* Product category navigation
-* Product subcategory navigation
-* Product display options
-* Product view modes
-
-Benefits:
-
-* Eliminates duplicate test methods
-* Improves maintainability
-* Simplifies test coverage expansion
-
----
-
-## Upcoming Phases
-
 ### Phase 5 – Shopping Cart
 
 #### Step 1 – Basic Shopping Cart Functionality
 
-Planned scenarios:
+Implemented scenarios:
 
 * Add simple product to cart
-* Verify shopping cart quantity
 * Verify product appears in cart
 * Remove product from cart
 
-Status: ⬜ Not started
+Status: ✅ Complete
 
 ---
 
 #### Step 2 – Cart Updates and Totals
 
-Planned scenarios:
+Implemented scenarios:
 
 * Update product quantity
 * Verify product subtotal updates correctly
 * Verify cart total updates correctly
 
-Status: ⬜ Not started
+Status: ✅ Complete
 
 ---
 
 #### Step 3 – Shopping Cart Header Functionality
 
-Planned scenarios:
+Implemented scenarios:
 
-* Verify Shopping Cart quantity in header
-* Verify Shopping Cart preview is displayed
-* Verify product name in Shopping Cart preview
-* Verify quantity in Shopping Cart preview
-* Verify subtotal in Shopping Cart preview
-* Navigate to Shopping Cart page from header
+* Verify Shopping Cart quantity updates in header after adding a product
 
-Status: ⬜ Not started
+Status: ✅ Complete
+
+Notes:
+
+* Shopping Cart tests are executed using an authenticated user.
+* Tests follow a realistic user flow:
+  * Login
+  * Search product
+  * Open product page
+  * Add product to cart
+  * Open Shopping Cart
+* Cart state is cleaned before execution to improve test stability.
 
 ---
+
+## Upcoming Phases
+
+### Phase 5 – Shopping Cart Continued
 
 #### Step 4 – Configurable Products
 
@@ -349,6 +258,125 @@ Planned scenarios:
 * End-to-end purchase flow
 
 Status: ⬜ Not started
+
+---
+
+## TestNG Suites
+
+### Smoke Suite
+
+Runs only critical application health checks.
+
+File:
+
+```text
+testng-smoke.xml
+```
+
+Included tests:
+
+* Application Smoke Tests
+
+---
+
+### Regression Suite
+
+Runs all implemented automated tests.
+
+File:
+
+```text
+testng-regression.xml
+```
+
+Included tests:
+
+* Smoke Tests
+* Authentication Tests
+* Registration Tests
+* Product Catalog Tests
+* Search Tests
+* Shopping Cart Tests
+
+As new phases are implemented, they will automatically become part of the regression suite.
+
+---
+
+## Configuration
+
+Example configuration:
+
+```properties
+browser=chrome
+headless=false
+baseUrl=https://demowebshop.tricentis.com
+validEmail=automation_tester@test.com
+validPassword=Password123!
+invalidEmail=invalid@test.com
+invalidPassword=WrongPassword123
+```
+
+### Supported Browsers
+
+* Chrome
+* Firefox
+* Edge
+
+### Headless Execution
+
+To run tests in headless mode:
+
+```properties
+headless=true
+```
+
+---
+
+## Utility Components
+
+### TestDataGenerator
+
+Generates unique email addresses for registration tests:
+
+```java
+TestDataGenerator.generateUniqueEmail();
+```
+
+This prevents failures caused by duplicate registration attempts.
+
+### BasePage Utilities
+
+Common reusable functionality includes:
+
+* Element interactions
+* Explicit waits
+* Attribute retrieval
+* Dynamic typing support
+* Shared page operations
+
+These utilities reduce duplication and improve framework maintainability.
+
+---
+
+## Test Data Management
+
+### TestNG DataProviders
+
+The framework uses TestNG DataProviders for data-driven testing.
+
+Current usage:
+
+* Product category navigation
+* Product subcategory navigation
+* Product display options
+* Product view modes
+* Product sorting
+
+Benefits:
+
+* Eliminates duplicate test methods
+* Improves maintainability
+* Simplifies test coverage expansion
 
 ---
 

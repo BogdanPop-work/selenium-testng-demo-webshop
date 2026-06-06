@@ -191,4 +191,8 @@ public class SearchResultsPage extends BasePage {
 		return actualPrices.equals(expectedPrices);
 	}
 
+	public void openProductByName(String productName) {
+		click(By.linkText(productName));
+	}
+
 }
