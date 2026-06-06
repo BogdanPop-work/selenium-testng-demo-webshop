@@ -3,7 +3,8 @@ package com.bogdan.automation.pages;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,6 +13,7 @@ import com.bogdan.automation.utils.Randomizer;
 
 public class BuildYourOwnComputerPage extends ProductPage {
 
+	private static final Logger logger = LoggerFactory.getLogger(BuildYourOwnComputerPage.class);
 	private Map<String, By> processors = Map.of("Slow", By.id("product_attribute_74_5_26_80"), "Medium",
 			By.id("product_attribute_74_5_26_81"), "Fast", By.id("product_attribute_74_5_26_82"));
 
@@ -86,6 +88,22 @@ public class BuildYourOwnComputerPage extends ProductPage {
 
 		List<String> software = Randomizer.getRandomItems(new ArrayList<>(softwareOptions.keySet()));
 
-		return buildComputer(processor, ram, hdd, software);
+		ComputerConfiguration configuration = buildComputer(processor, ram, hdd, software);
+
+		logger.info("""
+
+				===== RANDOM COMPUTER CONFIGURATION =====
+				Processor: {}
+				RAM: {}
+				HDD: {}
+				Software: {}
+				Expected Price: {}
+				=========================================
+
+				""", configuration.processor(), configuration.ram(), configuration.hdd(),
+				configuration.software(), configuration.expectedPrice());
+
+		return configuration;
 	}
+
 }

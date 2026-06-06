@@ -16,7 +16,7 @@ public class ProductCatalogTests extends BaseTest {
 	private CategoryPage categoryPage;
 	private ProductPage productPage;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initializePages() {
 		homePage = new HomePage(driver);
 		categoryPage = new CategoryPage(driver);

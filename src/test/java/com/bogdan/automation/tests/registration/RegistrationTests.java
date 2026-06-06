@@ -14,7 +14,7 @@ public class RegistrationTests extends BaseTest {
 	private ApplicationPage applicationPage;
 	private RegisterPage registerPage;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initializePages() {
 		applicationPage = new ApplicationPage(driver);
 		registerPage = new RegisterPage(driver);

@@ -1,7 +1,8 @@
 package com.bogdan.automation.test.shoppingcart;
 
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,7 +11,6 @@ import com.bogdan.automation.base.BaseTest;
 import com.bogdan.automation.models.ComputerConfiguration;
 import com.bogdan.automation.pages.ApplicationPage;
 import com.bogdan.automation.pages.BuildYourOwnComputerPage;
-import com.bogdan.automation.pages.CategoryPage;
 import com.bogdan.automation.pages.LoginPage;
 import com.bogdan.automation.pages.ProductPage;
 import com.bogdan.automation.pages.SearchResultsPage;
@@ -19,16 +19,16 @@ import com.bogdan.automation.utils.ConfigReader;
 
 public class ShoppingCartTests extends BaseTest {
 
-	private LoginPage loginPage;
+	private static final Logger logger = LoggerFactory.getLogger(ShoppingCartTests.class);
 
+	private LoginPage loginPage;
 	private ProductPage productPage;
 	private ShoppingCartPage shoppingCartPage;
 	private ApplicationPage applicationPage;
 	private SearchResultsPage searchResultsPage;
 	private BuildYourOwnComputerPage buildYourOwnComputerPage;
-	private CategoryPage categoryPage;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initializePages() {
 		loginPage = new LoginPage(driver);
 		productPage = new ProductPage(driver);
@@ -36,7 +36,7 @@ public class ShoppingCartTests extends BaseTest {
 		applicationPage = new ApplicationPage(driver);
 		searchResultsPage = new SearchResultsPage(driver);
 		buildYourOwnComputerPage = new BuildYourOwnComputerPage(driver);
-		categoryPage = new CategoryPage(driver);
+
 	}
 
 	private void prepareCleanCart() {
@@ -163,24 +163,24 @@ public class ShoppingCartTests extends BaseTest {
 		Assert.assertEquals(shoppingCartPage.getProductName(), "Build your own expensive computer",
 				"Product name in cart is incorrect");
 
-		Assert.assertTrue(attributes.contains(configuration.getProcessor()),
+		Assert.assertTrue(attributes.contains(configuration.processor()),
 				"Selected processor is not displayed in cart");
 
-		Assert.assertTrue(attributes.contains(configuration.getRam()), "Selected RAM is not displayed in cart");
+		Assert.assertTrue(attributes.contains(configuration.ram()), "Selected RAM is not displayed in cart");
 
-		Assert.assertTrue(attributes.contains(configuration.getHdd()), "Selected HDD is not displayed in cart");
+		Assert.assertTrue(attributes.contains(configuration.hdd()), "Selected HDD is not displayed in cart");
 
-		for (String software : configuration.getSoftware()) {
+		for (String software : configuration.software()) {
 			Assert.assertTrue(attributes.contains(software), "Selected software is not displayed in cart: " + software);
 		}
 
-		Assert.assertEquals(shoppingCartPage.getUnitPrice(), configuration.getExpectedPrice(),
+		Assert.assertEquals(shoppingCartPage.getUnitPrice(), configuration.expectedPrice(),
 				"Computer unit price is incorrect");
 
-		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.getExpectedPrice(),
+		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.expectedPrice(),
 				"Computer subtotal is incorrect");
 
-		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.getExpectedPrice(),
+		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice(),
 				"Cart total is incorrect");
 	}
 
@@ -201,17 +201,33 @@ public class ShoppingCartTests extends BaseTest {
 
 		String attributes = shoppingCartPage.getProductAttributes();
 
-		Assert.assertTrue(attributes.contains(configuration.getProcessor()));
-		Assert.assertTrue(attributes.contains(configuration.getRam()));
-		Assert.assertTrue(attributes.contains(configuration.getHdd()));
+		logger.info("""
 
-		for (String software : configuration.getSoftware()) {
+				===== CART DATA =====
+
+				Attributes:
+				{}
+
+				Unit Price : {}
+				Subtotal   : {}
+				Order Total: {}
+
+				=====================
+
+				""", attributes, shoppingCartPage.getUnitPrice(), shoppingCartPage.getSubtotal(),
+				shoppingCartPage.getOrderTotal());
+
+		Assert.assertTrue(attributes.contains(configuration.processor()));
+		Assert.assertTrue(attributes.contains(configuration.ram()));
+		Assert.assertTrue(attributes.contains(configuration.hdd()));
+
+		for (String software : configuration.software()) {
 			Assert.assertTrue(attributes.contains(software));
 		}
 
-		Assert.assertEquals(shoppingCartPage.getUnitPrice(), configuration.getExpectedPrice());
-		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.getExpectedPrice());
-		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.getExpectedPrice());
+		Assert.assertEquals(shoppingCartPage.getUnitPrice(), configuration.expectedPrice());
+		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.expectedPrice());
+		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice());
 
 	}
 

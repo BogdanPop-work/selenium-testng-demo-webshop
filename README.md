@@ -31,6 +31,10 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * Configurable product automation
 * Dynamic price calculation
 * Randomized test data selection
+* SLF4J + Logback logging
+* Java 21 Records
+* Java 21 Switch Expressions
+* Java 21 Text Blocks
 
 ---
 
@@ -389,6 +393,23 @@ Benefits:
 
 ---
 
+### Logging
+
+The framework uses SLF4J with Logback for structured logging.
+
+Current usage:
+
+* Random configurable product generation
+* Shopping Cart validation
+* Dynamic price verification
+
+Benefits:
+
+* Cleaner console output
+* Timestamped execution logs
+* Easier debugging and test analysis
+* Centralized logging configuration
+
 ### BasePage Utilities
 
 Common reusable functionality includes:
@@ -407,6 +428,8 @@ These utilities reduce duplication and improve framework maintainability.
 
 ### ComputerConfiguration
 
+Implemented as a Java Record.
+
 Represents a configurable computer build.
 
 Current usage:
@@ -418,9 +441,9 @@ Current usage:
 
 Benefits:
 
-* Encapsulates configuration data
-* Improves test readability
-* Simplifies validation logic
+* Immutable data model
+* Reduced boilerplate code
+* Improved readability
 * Supports future configurable products
 
 ---
@@ -461,7 +484,7 @@ Phase 5 - Shopping Cart
   Step 3 - Cart Header             ✅ Complete
   Step 4 - Configurable Products   ✅ Complete
   Step 5 - Gift Cards              ⬜ Not Started
-  Step 6 - Download-able Products   ⬜ Not Started
+  Step 6 - Downloadable Products   ⬜ Not Started
 
 Phase 6 - Checkout                 ⬜ Not Started
 ```
@@ -474,10 +497,9 @@ Phase 6 - Checkout                 ⬜ Not Started
 * Retry Analyzer for flaky tests
 * Screenshot capture on failure
 * Extent Reports integration
-* Logging framework integration
 * GitHub Actions CI/CD pipeline
 * Jenkins integration
-
+* JSON-driven test data management
 ---
 
 ## How to Run

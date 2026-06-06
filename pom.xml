@@ -6,6 +6,11 @@
 	<artifactId>selenium-testng-demo-webshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<properties>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+	</properties>
+
 	<dependencies>
 		<!-- Source: https://mvnrepository.com/artifact/org.testng/testng -->
 		<dependency>
@@ -28,6 +33,12 @@
 			<artifactId>webdrivermanager</artifactId>
 			<version>6.3.4</version>
 		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.18</version>
+		</dependency>
 	</dependencies>
+
 
 </project>

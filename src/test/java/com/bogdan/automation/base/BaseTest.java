@@ -10,14 +10,14 @@ public class BaseTest {
 
 	protected WebDriver driver;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		DriverFactory driverFactory = new DriverFactory();
 		driver = driverFactory.initializeDriver();
 		driver.get(ConfigReader.getProperty("baseUrl"));
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void tearDown() {
 		if (driver != null) {
 			driver.quit();

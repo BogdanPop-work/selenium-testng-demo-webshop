@@ -13,7 +13,7 @@ public class SearchTests extends BaseTest {
 	private ApplicationPage applicationPage;
 	private SearchResultsPage searchResultsPage;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initializePages() {
 		applicationPage = new ApplicationPage(driver);
 		searchResultsPage = new SearchResultsPage(driver);
