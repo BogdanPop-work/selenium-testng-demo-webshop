@@ -11,6 +11,7 @@ import com.bogdan.automation.base.BaseTest;
 import com.bogdan.automation.models.ComputerConfiguration;
 import com.bogdan.automation.pages.ApplicationPage;
 import com.bogdan.automation.pages.BuildYourOwnComputerPage;
+import com.bogdan.automation.pages.GiftCardPage;
 import com.bogdan.automation.pages.LoginPage;
 import com.bogdan.automation.pages.ProductPage;
 import com.bogdan.automation.pages.SearchResultsPage;
@@ -27,6 +28,7 @@ public class ShoppingCartTests extends BaseTest {
 	private ApplicationPage applicationPage;
 	private SearchResultsPage searchResultsPage;
 	private BuildYourOwnComputerPage buildYourOwnComputerPage;
+	private GiftCardPage giftCardPage;
 
 	@BeforeMethod(alwaysRun = true)
 	public void initializePages() {
@@ -36,12 +38,18 @@ public class ShoppingCartTests extends BaseTest {
 		applicationPage = new ApplicationPage(driver);
 		searchResultsPage = new SearchResultsPage(driver);
 		buildYourOwnComputerPage = new BuildYourOwnComputerPage(driver);
+		giftCardPage = new GiftCardPage(driver);
 
 	}
 
 	private void prepareCleanCart() {
 		applicationPage.openShoppingCartFromHeader();
 		shoppingCartPage.clearCartIfNotEmpty();
+	}
+
+	private void openGiftCard(String giftCardName) {
+		applicationPage.searchFromHeader(giftCardName);
+		searchResultsPage.openProductByName(giftCardName);
 	}
 
 	private void loginAsValidUser() {
@@ -180,8 +188,7 @@ public class ShoppingCartTests extends BaseTest {
 		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.expectedPrice(),
 				"Computer subtotal is incorrect");
 
-		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice(),
-				"Cart total is incorrect");
+		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice(), "Cart total is incorrect");
 	}
 
 	@Test(groups = { "cart", "regression" })
@@ -229,6 +236,98 @@ public class ShoppingCartTests extends BaseTest {
 		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.expectedPrice());
 		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice());
 
+	}
+
+	@Test(groups = { "cart", "regression" })
+	public void verifyVirtualGiftCardCanBeAddedToCart() {
+
+		String giftCardName = "$5 Virtual Gift Card";
+
+		loginAsValidUser();
+
+		prepareCleanCart();
+
+		openGiftCard(giftCardName);
+
+		giftCardPage.completeGiftCardDetails("John Recipient", "john.recipient@test.com", "Automation Tester",
+				"automation_tester@test.com", "Happy birthday from automation!");
+
+		productPage.clickAddToCartButton();
+
+		productPage.openShoppingCartFromSuccessMessage();
+
+		Assert.assertEquals(shoppingCartPage.getProductName(), giftCardName,
+				"Gift card product name in cart is incorrect");
+	}
+
+	@Test(groups = { "cart", "regression" })
+	public void verifyVirtualGiftCardRequiredFieldsValidation() {
+
+		String giftCardName = "$5 Virtual Gift Card";
+
+		loginAsValidUser();
+
+		prepareCleanCart();
+
+		openGiftCard(giftCardName);
+
+		productPage.clickAddToCartButton();
+
+		Assert.assertTrue(giftCardPage.isRecipientNameValidationDisplayed(),
+				"Recipient name validation message is not displayed");
+
+		Assert.assertTrue(giftCardPage.isRecipientEmailValidationDisplayed(),
+				"Recipient email validation message is not displayed");
+	}
+
+	@Test(groups = { "cart", "regression" })
+	public void verifyVirtualGiftCardRejectsInvalidRecipientEmail() {
+
+		String giftCardName = "$5 Virtual Gift Card";
+
+		loginAsValidUser();
+
+		prepareCleanCart();
+
+		openGiftCard(giftCardName);
+
+		giftCardPage.enterRecipientName("John Recipient");
+		giftCardPage.enterRecipientEmail("invalid-email");
+
+		productPage.clickAddToCartButton();
+
+		Assert.assertTrue(giftCardPage.isRecipientEmailValidationDisplayed(),
+				"Recipient email validation message is not displayed");
+	}
+
+	@Test(groups = { "cart", "regression" })
+	public void verifyVirtualGiftCardDetailsAreDisplayedInShoppingCart() {
+
+		String giftCardName = "$5 Virtual Gift Card";
+		String recipientName = "John Recipient";
+		String recipientEmail = "john.recipient@test.com";
+		String senderName = "Automation Tester";
+		String senderEmail = "automation_tester@test.com";
+		String message = "Happy birthday from automation!";
+
+		loginAsValidUser();
+
+		prepareCleanCart();
+
+		openGiftCard(giftCardName);
+
+		giftCardPage.completeGiftCardDetails(recipientName, recipientEmail, senderName, senderEmail, message);
+
+		productPage.clickAddToCartButton();
+
+		productPage.openShoppingCartFromSuccessMessage();
+
+		String attributes = shoppingCartPage.getProductAttributes();
+		Assert.assertTrue(attributes.contains("From: " + senderName + " <" + senderEmail + ">"),
+				"Sender details are not displayed in cart");
+
+		Assert.assertTrue(attributes.contains("For: " + recipientName + " <" + recipientEmail + ">"),
+				"Recipient details are not displayed in cart");
 	}
 
 }

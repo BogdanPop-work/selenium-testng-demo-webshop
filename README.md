@@ -111,6 +111,10 @@ Status: ✅ Complete
 
 ### Phase 4 – Product Catalog
 
+Status: ✅ Complete
+
+#### Step 1 – Category Navigation
+
 Implemented scenarios:
 
 * Category navigation
@@ -118,39 +122,71 @@ Implemented scenarios:
 * Sub-category navigation
 * Product details page
 
-#### Search
+Status: ✅ Complete
+
+---
+
+#### Step 2 – Search
+
+Implemented scenarios:
 
 * Basic Search
 * Search With No Results
 
-#### Advanced Search
+Status: ✅ Complete
+
+---
+
+#### Step 3 – Advanced Search
+
+Implemented scenarios:
 
 * Advanced Search by Category
 * Advanced Search with Subcategories
 * Advanced Search in Product Descriptions
 * Advanced Search by Price Range
 
-#### Product Sorting
+Status: ✅ Complete
+
+---
+
+#### Step 4 – Product Sorting
+
+Implemented scenarios:
 
 * Sort By Name: A to Z
 * Sort By Name: Z to A
 * Sort By Price: Low to High
 * Sort By Price: High to Low
 
-#### Product Display Options
+Status: ✅ Complete
+
+---
+
+#### Step 5 – Product Display Options
+
+Implemented scenarios:
 
 * Display 4 Products Per Page
 * Display 8 Products Per Page
 * Display 12 Products Per Page
 
-#### Product View Modes
+Status: ✅ Complete
+
+---
+
+#### Step 6 – Product View Modes
+
+Implemented scenarios:
 
 * Grid View
 * List View
 
 Status: ✅ Complete
 
-Notes:
+---
+
+### Product Catalog Notes
 
 * Manufacturer filtering was investigated but is currently excluded from the automation suite because the Demo Web Shop application does not return valid search results when filtering by the only available manufacturer ("Tricentis").
 * Product catalog scenarios use TestNG DataProviders where appropriate to reduce duplication and improve maintainability.
@@ -193,18 +229,6 @@ Implemented scenarios:
 
 Status: ✅ Complete
 
-Notes:
-
-* Shopping Cart tests are executed using an authenticated user.
-* Tests follow a realistic user flow:
-
-  * Login
-  * Search product
-  * Open product page
-  * Add product to cart
-  * Open Shopping Cart
-* Cart state is cleaned before execution to improve test stability.
-
 ---
 
 #### Step 4 – Configurable Products
@@ -241,22 +265,50 @@ Notes:
 
 ---
 
-## Upcoming Phases
-
-### Phase 5 – Shopping Cart Continued
-
 #### Step 5 – Gift Cards
 
-Planned scenarios:
+Implemented scenarios:
 
 * Purchase virtual gift card
 * Validate required gift card fields
-* Verify recipient information
-* Verify gift card details in cart
+* Validate invalid recipient email
+* Verify gift card details in shopping cart
 
-Status: ⬜ Not started
+Status: ✅ Complete
+
+Notes:
+
+* Gift Card functionality uses a dedicated GiftCardPage.
+* Validation messages are verified through application notifications.
+* Shopping Cart validations verify sender and recipient information.
 
 ---
+
+### Shopping Cart Framework Notes
+
+* Shopping Cart tests are executed using an authenticated user.
+* Shopping Cart cleanup removes all products before execution.
+* Explicit waits ensure cart cleanup completes before test execution continues.
+* Cart isolation improvements were implemented to support reliable regression execution.
+* Tests follow a realistic user flow:
+
+```text
+Login
+  ↓
+Search Product
+  ↓
+Open Product Page
+  ↓
+Add Product To Cart
+  ↓
+Open Shopping Cart
+```
+
+---
+
+## Upcoming Phases
+
+### Phase 5 – Shopping Cart Continued
 
 #### Step 6 – Downloadable Products
 

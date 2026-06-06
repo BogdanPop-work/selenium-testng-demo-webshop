@@ -1,7 +1,10 @@
 package com.bogdan.automation.pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ShoppingCartPage extends BasePage {
@@ -22,6 +25,7 @@ public class ShoppingCartPage extends BasePage {
 	private By subtotal = By.cssSelector(".product-subtotal");
 	private By orderTotal = By.cssSelector(".order-total");
 	private By productAttributes = By.cssSelector(".cart-item-row .attributes");
+	private By removeCheckboxes = By.cssSelector("input[name='removefromcart']");
 
 	public ShoppingCartPage(WebDriver driver) {
 		super(driver);
@@ -76,9 +80,20 @@ public class ShoppingCartPage extends BasePage {
 	}
 
 	public void clearCartIfNotEmpty() {
+
 		if (hasProducts()) {
-			selectRemoveProductCheckbox();
-			clickUpdateCartButton();
+
+			List<WebElement> checkboxes = driver.findElements(removeCheckboxes);
+
+			for (WebElement checkbox : checkboxes) {
+				if (!checkbox.isSelected()) {
+					checkbox.click();
+				}
+			}
+
+			click(updateCartButton);
+
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(cartRows));
 		}
 	}
 
@@ -101,4 +116,5 @@ public class ShoppingCartPage extends BasePage {
 	public double getOrderTotal() {
 		return Double.parseDouble(getText(orderTotal));
 	}
+
 }
