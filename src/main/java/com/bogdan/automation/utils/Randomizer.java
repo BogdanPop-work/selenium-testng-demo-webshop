@@ -1,6 +1,7 @@
 package com.bogdan.automation.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -50,5 +51,22 @@ public class Randomizer {
 
 	public static String getRandomLastName() {
 		return getRandomItem(LAST_NAMES);
+	}
+
+	public static <T> List<T> getRandomItems(List<T> items, int count) {
+
+		if (items == null || items.isEmpty()) {
+			throw new IllegalArgumentException("Items list cannot be null or empty");
+		}
+
+		if (count > items.size()) {
+			throw new IllegalArgumentException("Requested item count is greater than available items. Requested: "
+					+ count + ", available: " + items.size());
+		}
+
+		List<T> shuffledItems = new ArrayList<>(items);
+		Collections.shuffle(shuffledItems);
+
+		return shuffledItems.stream().limit(count).toList();
 	}
 }

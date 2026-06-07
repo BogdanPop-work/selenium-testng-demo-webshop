@@ -36,3 +36,8 @@ replay_pid*
 Thumbs.dbs
 # TestNG Reports
 test-output/
+
+target/
+allure-results/
+allure-report/
+*.log

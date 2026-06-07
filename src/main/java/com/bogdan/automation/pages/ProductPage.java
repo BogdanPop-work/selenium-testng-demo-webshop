@@ -21,6 +21,7 @@ public class ProductPage extends BasePage {
 	private By wishlistLinkInSuccessMessage = By.cssSelector("#bar-notification .content a");
 
 	private By availabilityValue = By.cssSelector(".stock .value");
+	private By closeNotificationButton = By.cssSelector("#bar-notification .close");
 
 	public ProductPage(WebDriver driver) {
 		super(driver);
@@ -77,5 +78,13 @@ public class ProductPage extends BasePage {
 		}
 
 		return getText(availabilityValue).trim();
+	}
+
+	public void waitForAddToCartSuccessMessage() {
+		findVisible(addToCartSuccessMessage);
+	}
+
+	public void closeSuccessNotification() {
+		click(closeNotificationButton);
 	}
 }

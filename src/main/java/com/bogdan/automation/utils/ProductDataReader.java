@@ -1,6 +1,7 @@
 package com.bogdan.automation.utils;
 
 import java.io.InputStream;
+import java.util.List;
 
 import com.bogdan.automation.models.ConfigurableProductData;
 import com.bogdan.automation.models.GiftCardData;
@@ -66,6 +67,14 @@ public class ProductDataReader {
 
 	public static ConfigurableProductData getRandomConfigurableProduct() {
 		return Randomizer.getRandomItem(getProductsTestData().configurableProducts());
+	}
+
+	public static List<ProductData> getRandomCartReadySimpleProducts(int count) {
+
+		List<ProductData> cartReadyProducts = getProductsTestData().simpleProducts().stream()
+				.filter(product -> SupportedProductAction.ADD_TO_CART.equals(product.supportedAction())).toList();
+
+		return Randomizer.getRandomItems(cartReadyProducts, count);
 	}
 
 }

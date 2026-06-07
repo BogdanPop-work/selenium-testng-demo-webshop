@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import com.bogdan.automation.models.ComputerConfiguration;
 import com.bogdan.automation.models.ConfigurableProductData;
@@ -18,14 +20,33 @@ public class BuildYourOwnComputerPage extends ProductPage {
 		super(driver);
 	}
 
-	private By optionByLabel(String optionName) {
-		return By.xpath("//label[contains(normalize-space(),'" + optionName + "')]/preceding-sibling::input");
+	private By labelByText(String optionName) {
+	    return By.xpath("//label[contains(normalize-space(),'" + optionName + "')]");
+	}
+
+	private By optionByVisibleText(String optionName) {
+	    return By.xpath("//option[contains(normalize-space(),'" + optionName + "')]");
 	}
 
 	private void selectOption(String optionName) {
-		click(optionByLabel(optionName));
-	}
 
+	    if (!driver.findElements(optionByVisibleText(optionName)).isEmpty()) {
+	        WebElement option = driver.findElement(optionByVisibleText(optionName));
+	        WebElement dropdown = option.findElement(By.xpath("./ancestor::select"));
+	        new Select(dropdown).selectByVisibleText(option.getText().trim());
+	        return;
+	    }
+
+	    click(labelByText(optionName));
+	}
+	private void clearSelectedCheckboxes() {
+	    List<WebElement> checkedBoxes =
+	            driver.findElements(By.cssSelector("input[type='checkbox']:checked"));
+
+	    for (WebElement checkbox : checkedBoxes) {
+	        checkbox.click();
+	    }
+	}
 	public ComputerConfiguration buildRandomComputer(ConfigurableProductData configurableProduct) {
 
 		ProductAttributes attributes = configurableProduct.attributes();
@@ -40,7 +61,10 @@ public class BuildYourOwnComputerPage extends ProductPage {
 		selectOption(ram.name());
 		selectOption(hdd.name());
 
+		clearSelectedCheckboxes();
+
 		List<String> selectedSoftwareNames = new ArrayList<>();
+
 
 		for (ProductOption software : selectedSoftwareOptions) {
 			selectOption(software.name());

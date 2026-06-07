@@ -117,4 +117,9 @@ public class ShoppingCartPage extends BasePage {
 		return Double.parseDouble(getText(orderTotal));
 	}
 
+	public boolean isProductPresent(String productName) {
+		return driver.findElements(By.cssSelector("table.cart .product-name")).stream()
+				.anyMatch(product -> product.getText().trim().equalsIgnoreCase(productName));
+	}
+
 }

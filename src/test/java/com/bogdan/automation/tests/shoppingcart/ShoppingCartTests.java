@@ -1,5 +1,6 @@
-package com.bogdan.automation.test.shoppingcart;
+package com.bogdan.automation.tests.shoppingcart;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -51,6 +52,11 @@ public class ShoppingCartTests extends BaseTest {
 
 	}
 
+	private void openSimpleProductByName(ProductData product) {
+		applicationPage.searchFromHeader(product.name());
+		searchResultsPage.openProductByName(product.name());
+	}
+
 	private void openConfigurableProduct(ConfigurableProductData product) {
 		applicationPage.searchFromHeader(product.name());
 		searchResultsPage.openProductByName(product.name());
@@ -67,10 +73,8 @@ public class ShoppingCartTests extends BaseTest {
 	}
 
 	private void prepareCleanWishlist() {
-
 		applicationPage.openWishlistFromHeader();
-
-		wishlistPage.clearWishlist();
+		wishlistPage.clearWishlistIfNotEmpty();
 	}
 
 	private void openGiftCard(String giftCardName) {
@@ -172,7 +176,7 @@ public class ShoppingCartTests extends BaseTest {
 
 		productPage.clickAddToCartButton();
 
-		productPage.openShoppingCartFromSuccessMessage();
+		applicationPage.openShoppingCartFromHeader();
 
 		shoppingCartPage.updateQuantity(String.valueOf(quantity));
 		shoppingCartPage.clickUpdateCartButton();
@@ -471,5 +475,37 @@ public class ShoppingCartTests extends BaseTest {
 
 		Assert.assertFalse(productPage.isAddToWishlistButtonDisplayed(),
 				"View-only product should not have Add to wishlist button");
+	}
+
+	@Test(groups = { "cart", "regression" })
+	public void verifyCartTotalForMultipleRandomProducts() {
+
+		int numberOfProducts = Randomizer.getRandomInt(2, 5);
+
+		List<ProductData> products = ProductDataReader.getRandomCartReadySimpleProducts(numberOfProducts);
+
+		double expectedTotalValue = products.stream().mapToDouble(ProductData::price).sum();
+
+		String expectedTotal = String.format(Locale.US, "%.2f", expectedTotalValue);
+
+		loginAsValidUser();
+		prepareCleanCart();
+
+		for (ProductData product : products) {
+			openSimpleProductByName(product);
+			productPage.clickAddToCartButton();
+			productPage.waitForAddToCartSuccessMessage();
+			productPage.closeSuccessNotification();
+		}
+
+		applicationPage.openShoppingCartFromHeader();
+
+		for (ProductData product : products) {
+			Assert.assertTrue(shoppingCartPage.isProductPresent(product.name()),
+					"Product not found in cart: " + product.name());
+		}
+
+		Assert.assertEquals(shoppingCartPage.getCartTotal(), expectedTotal,
+				"Cart total is incorrect for multiple products");
 	}
 }

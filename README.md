@@ -21,9 +21,7 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * Configurable headless execution
 * Explicit waits
 * Dynamic test data generation
-* TestNG DataProviders
-* TestNG groups
-* TestNG suite execution
+* TestNG DataProviders, groups and suite execution
 * Centralized configuration management
 * Reusable page actions through BasePage
 * Dynamic element attribute handling
@@ -32,9 +30,28 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * Dynamic price calculation
 * Randomized test data selection
 * SLF4J + Logback logging
-* Java 21 Records
-* Java 21 Switch Expressions
-* Java 21 Text Blocks
+* Java 21 Records, Switch Expressions and Text Blocks 
+* DriverManager with ThreadLocal WebDriver support
+* TestNG Listeners
+* Automatic screenshot capture on test failure
+
+---
+
+## TestNG Listeners
+
+The framework uses custom TestNG listeners to monitor and react to test execution events.
+
+Current functionality:
+
+* Test execution lifecycle logging
+* Screenshot capture on failure
+* Failure diagnostics
+
+Benefits:
+
+* Improved execution visibility
+* Faster failure analysis
+* Foundation for future reporting integrations
 
 ---
 
@@ -46,20 +63,23 @@ src
 │   └── java
 │       └── com.bogdan.automation
 │           ├── driver
+│           │   ├── DriverFactory
+│           │   └── DriverManager
 │           ├── models
 │           ├── pages
 │           └── utils
+│               ├── ConfigReader
+│               ├── Randomizer
+│               ├── ScreenshotUtils
+│               └── TestDataGenerator
 │
 └── test
     └── java
         └── com.bogdan.automation
             ├── base
+            ├── listeners
+            │   └── TestListener
             └── tests
-                ├── smoke
-                ├── authentication
-                ├── registration
-                ├── catalog
-                └── shoppingcart
 ```
 
 ---
@@ -216,6 +236,8 @@ Implemented scenarios:
 * Update product quantity
 * Verify product subtotal updates correctly
 * Verify cart total updates correctly
+* Verify cart total for multiple products
+* Verify multiple products are displayed correctly in cart
 
 Status: ✅ Complete
 
@@ -290,6 +312,8 @@ Notes:
 * Shopping Cart cleanup removes all products before execution.
 * Explicit waits ensure cart cleanup completes before test execution continues.
 * Cart isolation improvements were implemented to support reliable regression execution.
+* Multiple-product cart validation verifies dynamic cart total calculations.
+* Randomized cart composition is used to improve regression coverage.
 * Tests follow a realistic user flow:
 
 ```text
@@ -533,6 +557,8 @@ Benefits:
 * Easier debugging and test analysis
 * Centralized logging configuration
 
+---
+
 ### BasePage Utilities
 
 Common reusable functionality includes:
@@ -544,6 +570,34 @@ Common reusable functionality includes:
 * Shared page operations
 
 These utilities reduce duplication and improve framework maintainability.
+
+---
+
+### DriverManager
+
+Manages WebDriver instances through a centralized ThreadLocal implementation.
+
+Benefits:
+
+* Improved driver lifecycle management
+* Listener-friendly driver access
+* Future-ready for parallel execution
+* Reduced test coupling
+
+---
+### Screenshot Utils
+
+Provides centralized screenshot capture functionality.
+
+Current usage:
+
+* Automatic screenshot capture on test failure
+
+Benefits:
+
+* Faster debugging
+* Failure evidence collection
+* Reporting integration ready
 
 ---
 
@@ -625,10 +679,14 @@ Phase 5 - Shopping Cart
   Step 2 - Cart Updates            ✅ Complete
   Step 3 - Cart Header             ✅ Complete
   Step 4 - Configurable Products   ✅ Complete
-  Step 5 - Gift Cards ✅ Complete
-  Step 6 - Downloadable Products ✅ Complete
-  Step 7 - Wishlist Functionality    ✅ Complete
-  Step 8 - Product Catalog Scanner   ✅ Complete
+  Step 5 - Gift Cards              ✅ Complete
+  Step 6 - Downloadable Products   ✅ Complete
+  Step 7 - Wishlist Functionality  ✅ Complete
+  Step 8 - Product Catalog Scanner ✅ Complete
+
+Additional Coverage
+  ✓ Multi-product cart validation
+  ✓ Dynamic cart total calculation
 
 Phase 6 - Checkout                 ⬜ Not Started
 ```
@@ -639,7 +697,6 @@ Phase 6 - Checkout                 ⬜ Not Started
 
 * Parallel execution support
 * Retry Analyzer for flaky tests
-* Screenshot capture on failure
 * Extent Reports integration
 * GitHub Actions CI/CD pipeline
 * Jenkins integration

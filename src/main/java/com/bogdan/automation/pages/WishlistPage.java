@@ -15,7 +15,6 @@ public class WishlistPage extends BasePage {
 	private By updateWishlistButton = By.cssSelector(".update-wishlist-button");
 
 	private By wishlistContent = By.cssSelector(".wishlist-content");
-	private By wishlistItems = By.cssSelector(".cart-item-row");
 	private By removeProductCheckboxes = By.name("removefromcart");
 
 	public WishlistPage(WebDriver driver) {
@@ -44,8 +43,7 @@ public class WishlistPage extends BasePage {
 
 	
 
-	public void clearWishlist() {
-
+	public void clearWishlistIfNotEmpty() {
 	    if (isWishlistEmpty()) {
 	        return;
 	    }

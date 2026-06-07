@@ -214,5 +214,7 @@ public class SearchResultsPage extends BasePage {
 		throw new RuntimeException(
 				"Product was not found in search results: " + productName + " with price " + expectedPrice);
 	}
+	
+
 
 }
