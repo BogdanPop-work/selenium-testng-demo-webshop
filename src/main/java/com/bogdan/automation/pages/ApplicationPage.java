@@ -13,6 +13,7 @@ public class ApplicationPage extends BasePage {
 	private By shoppingCartLink = By.cssSelector("a.ico-cart");
 	private By searchBox = By.id("small-searchterms");
 	private By searchButton = By.cssSelector("input.search-box-button");
+	private By wishlistLink = By.cssSelector(".ico-wishlist");
 
 	public ApplicationPage(WebDriver driver) {
 		super(driver);
@@ -43,4 +44,7 @@ public class ApplicationPage extends BasePage {
 		click(searchButton);
 	}
 
+	public void openWishlistFromHeader() {
+		click(wishlistLink);
+	}
 }

@@ -20,13 +20,13 @@ public class SearchResultsPage extends BasePage {
 	private By searchSubcategoriesCheckbox = By.id("Isc");
 	private By searchButton = By.cssSelector("input.search-button");
 	private By pageTitle = By.cssSelector(".page-title h1");
-	private By productItems = By.cssSelector(".search-results .product-item");
 	private By productTitles = By.cssSelector(".search-results .product-title a");
 	private By noResultsMessage = By.cssSelector(".search-results .result");
 	private By priceFromField = By.id("Pf");
 	private By priceToField = By.id("Pt");
 	private By productPrices = By.cssSelector(".search-results .actual-price");
 	private By sortDropdown = By.id("products-orderby");
+	private By productItems = By.cssSelector(".product-item");
 
 	public SearchResultsPage(WebDriver driver) {
 		super(driver);
@@ -193,6 +193,26 @@ public class SearchResultsPage extends BasePage {
 
 	public void openProductByName(String productName) {
 		click(By.linkText(productName));
+	}
+
+	public void openProductByNameAndPrice(String productName, double expectedPrice) {
+
+		List<WebElement> products = driver.findElements(productItems);
+
+		for (WebElement product : products) {
+
+			String name = product.findElement(By.cssSelector(".product-title a")).getText().trim();
+
+			double price = Double.parseDouble(product.findElement(By.cssSelector(".actual-price")).getText().trim());
+
+			if (name.equals(productName) && price == expectedPrice) {
+				product.findElement(By.cssSelector(".product-title a")).click();
+				return;
+			}
+		}
+
+		throw new RuntimeException(
+				"Product was not found in search results: " + productName + " with price " + expectedPrice);
 	}
 
 }

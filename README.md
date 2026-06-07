@@ -195,7 +195,7 @@ Status: ✅ Complete
 
 ### Phase 5 – Shopping Cart
 
-Status: ⏳ In Progress
+Status: ✅ Complete
 
 #### Step 1 – Basic Shopping Cart Functionality
 
@@ -306,9 +306,6 @@ Open Shopping Cart
 
 ---
 
-## Upcoming Phases
-
-### Phase 5 – Shopping Cart Continued
 
 #### Step 6 – Downloadable Products
 
@@ -318,9 +315,66 @@ Planned scenarios:
 * Verify downloadable product in cart
 * Complete checkout preparation for downloadable product
 
-Status: ⬜ Not started
+Status: ✅ Complete
 
 ---
+
+#### Step 7 – Wishlist Functionality
+
+Implemented scenarios:
+
+* Add product to wishlist
+* Remove product from wishlist
+* Validate wishlist-only products
+
+Supporting components:
+
+* WishlistPage
+* Wishlist cleanup utilities
+* Product action classification
+
+Status: ✅ Complete
+
+---
+
+#### Step 8 – Product Catalog Scanner
+
+Implemented functionality:
+
+* Automated product catalog scanning
+* Product availability detection
+* Product action detection
+* Product metadata generation
+* JSON catalog maintenance support
+
+Captured metadata:
+
+* Product name
+* Category
+* Subcategory
+* Price
+* Availability
+* Supported action
+* Notes
+
+Supported actions:
+
+* ADD_TO_CART
+* ADD_TO_WISHLIST
+* VIEW_ONLY
+
+Status: ✅ Complete
+
+Notes:
+
+* ProductCatalogScannerTest is used to scan products directly from the application.
+* Scanner output is used to maintain products.json.
+* Product tests dynamically select compatible products based on supportedAction.
+* This reduces hardcoded test data and improves long-term maintainability.
+
+---
+
+## Upcoming Phases
 
 ### Phase 6 – Checkout
 
@@ -429,19 +483,34 @@ This prevents failures caused by duplicate registration attempts.
 
 ### Randomizer
 
-Provides reusable random data selection utilities.
+Provides reusable random data generation and random selection utilities.
+
+Current functionality:
+
+* Random selection from Lists
+* Random selection from Maps
+* Random selection of multiple items from a List
+* Random integer generation within a range
+* Random first name generation
+* Random last name generation
 
 Current usage:
 
-* Random configurable computer generation
-* Random selection from Maps
-* Random selection from Lists
+* Random simple product selection
+* Random cart-ready product selection
+* Random wishlist-ready product selection
+* Random gift card selection
+* Random configurable product selection
+* Random configurable product option selection
+* Random product quantity updates
+* Random recipient name generation for gift card tests
 
 Benefits:
 
 * Improves test coverage
 * Enables dynamic test execution
 * Reduces hardcoded test data
+* Supports reusable test data generation
 
 ---
 
@@ -454,6 +523,8 @@ Current usage:
 * Random configurable product generation
 * Shopping Cart validation
 * Dynamic price verification
+* Product catalog scanning
+* Product classification validation
 
 Benefits:
 
@@ -478,25 +549,22 @@ These utilities reduce duplication and improve framework maintainability.
 
 ## Models
 
-### ComputerConfiguration
+### Product Models
 
-Implemented as a Java Record.
+Current models:
 
-Represents a configurable computer build.
-
-Current usage:
-
-* Fixed configuration testing
-* Random configuration testing
-* Dynamic price calculation
-* Shopping Cart configuration verification
+* ProductData
+* GiftCardData
+* ConfigurableProductData
+* ProductAttributes
+* ProductOption
+* ComputerConfiguration
 
 Benefits:
 
-* Immutable data model
-* Reduced boilerplate code
-* Improved readability
-* Supports future configurable products
+* Strong typing
+* JSON-driven execution
+* Reusable test data structures
 
 ---
 
@@ -522,6 +590,28 @@ Benefits:
 
 ---
 
+### JSON Driven Product Data
+
+Product test data is maintained in:
+
+src/test/resources/testdata/products.json
+
+Current support:
+
+* Simple products
+* Downloadable products
+* Gift cards
+* Configurable products
+
+Benefits:
+
+* Centralized product maintenance
+* Dynamic product selection
+* Reduced test fragility
+* Easier expansion of product coverage
+
+---
+
 ## Current Automation Coverage
 
 ```text
@@ -535,8 +625,10 @@ Phase 5 - Shopping Cart
   Step 2 - Cart Updates            ✅ Complete
   Step 3 - Cart Header             ✅ Complete
   Step 4 - Configurable Products   ✅ Complete
-  Step 5 - Gift Cards              ⬜ Not Started
-  Step 6 - Downloadable Products   ⬜ Not Started
+  Step 5 - Gift Cards ✅ Complete
+  Step 6 - Downloadable Products ✅ Complete
+  Step 7 - Wishlist Functionality    ✅ Complete
+  Step 8 - Product Catalog Scanner   ✅ Complete
 
 Phase 6 - Checkout                 ⬜ Not Started
 ```
@@ -551,7 +643,6 @@ Phase 6 - Checkout                 ⬜ Not Started
 * Extent Reports integration
 * GitHub Actions CI/CD pipeline
 * Jenkins integration
-* JSON-driven test data management
 ---
 
 ## How to Run

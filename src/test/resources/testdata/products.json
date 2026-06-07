@@ -1,0 +1,789 @@
+{
+    "metadata": {
+        "application": "Tricentis Demo Web Shop",
+        "baseUrl": "https://demowebshop.tricentis.com",
+        "purpose": "Reusable product test data for Selenium/TestNG automation",
+        "notes": [
+            "Products are grouped by automation behavior so random selection remains stable.",
+            "Use simpleProducts for direct add-to-cart tests.",
+            "Use downloadableProducts for digital download cart tests.",
+            "Use giftCards for gift card field and cart validation tests.",
+            "Use configurableProducts only with a dedicated configurable-product flow."
+        ]
+    },
+    "simpleProducts": [
+		{
+		  "name": "Computing and Internet",
+		  "category": "Books",
+		  "subcategory": null,
+		  "price": 10.00,
+		  "oldPrice": 30.0,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Copy of Computing and Internet EX",
+		  "category": "Books",
+		  "subcategory": null,
+		  "price": 10.00,
+		  "oldPrice": 30.0,
+		  "description": null,
+		  "availability": "Out of stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as Out of stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Fiction",
+		  "category": "Books",
+		  "subcategory": null,
+		  "price": 24.00,
+		  "oldPrice": 35.0,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Fiction EX",
+		  "category": "Books",
+		  "subcategory": null,
+		  "price": 24.00,
+		  "oldPrice": 35.0,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_wishlist",
+		  "note": "Product cannot be added to cart but can be added to wishlist."
+		},
+
+		{
+		  "name": "Health Book",
+		  "category": "Books",
+		  "subcategory": null,
+		  "price": 10.00,
+		  "oldPrice": 27.0,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Science",
+		  "category": "Books",
+		  "subcategory": null,
+		  "price": 51.00,
+		  "oldPrice": 67.0,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Desktop PC with CDRW",
+		  "category": "Computers",
+		  "subcategory": "Desktops",
+		  "price": 500.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Elite Desktop PC",
+		  "category": "Computers",
+		  "subcategory": "Desktops",
+		  "price": 1350.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "14.1-inch Laptop",
+		  "category": "Computers",
+		  "subcategory": "Notebooks",
+		  "price": 1590.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Coaching day",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 1000.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Instructor Led Training",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 9000.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Public Complete",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 3000.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Public MT/AT",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 1700.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Public RPA/TCD",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 1700.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Self-Paced Training",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 400.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "TCP Self-Paced Training additional month",
+		  "category": "Computers",
+		  "subcategory": "Accessories",
+		  "price": 400.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "1MP 60GB Hard Drive Handycam Camcorder",
+		  "category": "Electronics",
+		  "subcategory": "Camera, photo",
+		  "price": 349.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Camcorder",
+		  "category": "Electronics",
+		  "subcategory": "Camera, photo",
+		  "price": 530.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "High Definition 3D Camcorder",
+		  "category": "Electronics",
+		  "subcategory": "Camera, photo",
+		  "price": 1300.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Smartphone",
+		  "category": "Electronics",
+		  "subcategory": "Cell phones",
+		  "price": 100.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Used phone",
+		  "category": "Electronics",
+		  "subcategory": "Cell phones",
+		  "price": 5.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Phone Cover",
+		  "category": "Electronics",
+		  "subcategory": "Cell phones",
+		  "price": 10.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": null,
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "50's Rockabilly Polka Dot Top JR Plus Size",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 11.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Blue and green Sneaker",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 11.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Blue Jeans",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 1.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Casual Golf Belt",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 1.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Denim Short with Rhinestones",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 10.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "Out of stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as Out of stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+			 "name": "Genuine Leather Handbag with Cell Phone Holder & Many Pockets",
+			  "category": "Apparel & Shoes",
+			  "subcategory": null,
+			  "price": 35.00,
+			  "oldPrice": null,
+			  "description": null,
+			  "availability": "Out of stock",
+			  "supportedAction": "view_only",
+			  "note": "Product is shown as Out of stock but Add to cart action returns an Out of stock message."
+			
+		},
+
+		{
+		  "name": "Green and blue Sneaker",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 17.56,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Men's Wrinkle Free Long Sleeve",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 24.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Sunglasses",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 25.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "Out of stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as Out of stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "TBlue Jeans",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 1.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Women's Running Shoe",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 40.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "Out of stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as Out of stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Wool Hat",
+		  "category": "Apparel & Shoes",
+		  "subcategory": null,
+		  "price": 30.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "Out of stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as Out of stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Black & White Diamond Heart",
+		  "category": "Jewelry",
+		  "subcategory": null,
+		  "price": 130.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "add_to_cart",
+		  "note": null
+		},
+
+		{
+		  "name": "Diamond Tennis Bracelet",
+		  "category": "Jewelry",
+		  "subcategory": null,
+		  "price": 360.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+		},
+
+		{
+		  "name": "Vintage Style Three Stone Diamond Engagement Ring",
+		  "category": "Jewelry",
+		  "subcategory": null,
+		  "price": 2100.00,
+		  "oldPrice": null,
+		  "description": null,
+		  "availability": "In stock",
+		  "supportedAction": "view_only",
+		  "note": "Product is shown as In stock but Add to cart and Wishlist actions are not available."
+
+        }
+    ],
+    "downloadableProducts": [
+        {
+            "name": "3rd Album",
+            "category": "Digital downloads",
+            "price": 1.0
+        },
+        {
+            "name": "Music 2",
+            "category": "Digital downloads",
+            "price": 10.0,
+            "description": "1st released Album from Tricentis"
+        },
+        {
+            "name": "Music 2",
+            "category": "Digital downloads",
+            "price": 3.0,
+            "description": "2nd album - country music"
+        }
+    ],
+    "giftCards": [
+        {
+            "name": "$5 Virtual Gift Card",
+            "type": "virtual",
+            "category": "Gift Cards",
+            "price": 5.0,
+            "requiresRecipientName": true,
+            "requiresRecipientEmail": true,
+            "requiresSenderName": true,
+            "requiresSenderEmail": true
+        },
+        {
+            "name": "$25 Virtual Gift Card",
+            "type": "virtual",
+            "category": "Gift Cards",
+            "price": 25.0,
+            "requiresRecipientName": true,
+            "requiresRecipientEmail": true,
+            "requiresSenderName": true,
+            "requiresSenderEmail": true
+        },
+        {
+            "name": "$50 Physical Gift Card",
+            "type": "physical",
+            "category": "Gift Cards",
+            "price": 50.0,
+            "requiresRecipientName": true,
+            "requiresRecipientEmail": false,
+            "requiresSenderName": true,
+            "requiresSenderEmail": false
+        },
+        {
+            "name": "$100 Physical Gift Card",
+            "type": "physical",
+            "category": "Gift Cards",
+            "price": 100.0,
+            "requiresRecipientName": true,
+            "requiresRecipientEmail": false,
+            "requiresSenderName": true,
+            "requiresSenderEmail": false
+        }
+    ],
+    "configurableProducts": [
+        {
+            "name": "Build your own cheap computer",
+            "category": "Computers",
+            "subcategory": "Desktops",
+            "basePrice": 800.0,
+            "attributes": {
+                "processors": [
+                    {
+                        "name": "Slow",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "Medium",
+                        "price": 15.0
+                    },
+                    {
+                        "name": "Fast",
+                        "price": 100.0
+                    }
+                ],
+                "ramOptions": [
+                    {
+                        "name": "2 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "4 GB",
+                        "price": 20.0
+                    },
+                    {
+                        "name": "8 GB",
+                        "price": 60.0
+                    }
+                ],
+                "hddOptions": [
+                    {
+                        "name": "320 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "400 GB",
+                        "price": 100.0
+                    }
+                ],
+                "softwareOptions": [
+                    {
+                        "name": "Image Viever",
+                        "price": 5.0
+                    },
+                    {
+                        "name": "Office Suite",
+                        "price": 100.0
+                    },
+                    {
+                        "name": "Other Office Suite",
+                        "price": 40.0
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Build your own computer",
+            "category": "Computers",
+            "subcategory": "Desktops",
+            "basePrice": 1200.0,
+            "attributes": {
+                "processors": [
+                    {
+                        "name": "2.2 GHz Intel Pentium Dual-Core E2200",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "2.5 GHz Intel Pentium Dual-Core E2200",
+                        "price": 15.0
+                    }
+                ],
+                "ramOptions": [
+                    {
+                        "name": "2 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "4GB",
+                        "price": 20.0
+                    },
+                    {
+                        "name": "8GB",
+                        "price": 60.0
+                    }
+                ],
+                "hddOptions": [
+                    {
+                        "name": "320 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "400 GB",
+                        "price": 100.0
+                    }
+                ],
+                "osOptions": [
+                    {
+                        "name": "Ubuntu",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "Windows 7",
+                        "price": 50.0
+                    },
+                    {
+                        "name": "Windows 10",
+                        "price": 60.0
+                    }
+                ],
+                "softwareOptions": [
+                    {
+                        "name": "Microsoft Office",
+                        "price": 50.0
+                    },
+                    {
+                        "name": "Acrobat Reader",
+                        "price": 10.0
+                    },
+                    {
+                        "name": "Total Commander",
+                        "price": 5.0
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Build your own expensive computer",
+            "category": "Computers",
+            "subcategory": "Desktops",
+            "basePrice": 1800.0,
+            "attributes": {
+                "processors": [
+                    {
+                        "name": "Slow",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "Medium",
+                        "price": 15.0
+                    },
+                    {
+                        "name": "Fast",
+                        "price": 100.0
+                    }
+                ],
+                "ramOptions": [
+                    {
+                        "name": "2 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "4GB",
+                        "price": 20.0
+                    },
+                    {
+                        "name": "8GB",
+                        "price": 60.0
+                    }
+                ],
+                "hddOptions": [
+                    {
+                        "name": "320 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "400 GB",
+                        "price": 100.0
+                    }
+                ],
+                "softwareOptions": [
+                    {
+                        "name": "Image Viewer",
+                        "price": 5.0
+                    },
+                    {
+                        "name": "Office Suite",
+                        "price": 100.0
+                    },
+                    {
+                        "name": "Other Office Suite",
+                        "price": 40.0
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Simple Computer",
+            "category": "Computers",
+            "subcategory": "Desktops",
+            "basePrice": 800.0,
+            "attributes": {
+                "processors": [
+                    {
+                        "name": "Slow",
+                        "price": 0.0
+                    }
+                ],
+                "ramOptions": [
+                    {
+                        "name": "2 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "4 GB",
+                        "price": 20.0
+                    },
+                    {
+                        "name": "8 GB",
+                        "price": 60.0
+                    }
+                ],
+                "hddOptions": [
+                    {
+                        "name": "320 GB",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "400 GB",
+                        "price": 100.0
+                    }
+                ],
+                "softwareOptions": [
+                    {
+                        "name": "Image Viewer",
+                        "price": 0.0
+                    },
+                    {
+                        "name": "Office Suite",
+                        "price": 0.0
+                    }
+                ]
+            }
+        }
+    ],
+    "specialHandlingProducts": [
+        {
+            "name": "Digital SLR Camera 12.2 Mpixel",
+            "category": "Electronics",
+            "subcategory": "Camera, photo",
+            "priceLabel": "From 500.00",
+            "reason": "Displayed with a From price; inspect product page before using in generic cart tests."
+        },
+        {
+            "name": "Custom T-Shirt",
+            "category": "Apparel & Shoes",
+            "price": 15.0,
+            "reason": "Likely requires custom text/content input before cart validation."
+        },
+        {
+            "name": "Create Your Own Jewelry",
+            "category": "Jewelry",
+            "price": 100.0,
+            "reason": "Configurable/custom jewelry product; inspect attributes before randomizing."
+        },
+        {
+            "name": "Diamond Pave Earrings",
+            "category": "Jewelry",
+            "priceLabel": "From 350.00",
+            "reason": "Displayed with a From price; inspect product page before using in generic cart tests."
+        }
+    ]
+}

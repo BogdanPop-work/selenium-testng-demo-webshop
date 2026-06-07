@@ -1,14 +1,17 @@
 package com.bogdan.automation.test.shoppingcart;
 
-import java.util.List;
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import com.bogdan.automation.base.BaseTest;
 import com.bogdan.automation.models.ComputerConfiguration;
+import com.bogdan.automation.models.ConfigurableProductData;
+import com.bogdan.automation.models.GiftCardData;
+import com.bogdan.automation.models.ProductData;
 import com.bogdan.automation.pages.ApplicationPage;
 import com.bogdan.automation.pages.BuildYourOwnComputerPage;
 import com.bogdan.automation.pages.GiftCardPage;
@@ -16,7 +19,10 @@ import com.bogdan.automation.pages.LoginPage;
 import com.bogdan.automation.pages.ProductPage;
 import com.bogdan.automation.pages.SearchResultsPage;
 import com.bogdan.automation.pages.ShoppingCartPage;
+import com.bogdan.automation.pages.WishlistPage;
 import com.bogdan.automation.utils.ConfigReader;
+import com.bogdan.automation.utils.ProductDataReader;
+import com.bogdan.automation.utils.Randomizer;
 
 public class ShoppingCartTests extends BaseTest {
 
@@ -29,6 +35,8 @@ public class ShoppingCartTests extends BaseTest {
 	private SearchResultsPage searchResultsPage;
 	private BuildYourOwnComputerPage buildYourOwnComputerPage;
 	private GiftCardPage giftCardPage;
+	private ProductData simpleProduct;
+	private WishlistPage wishlistPage;
 
 	@BeforeMethod(alwaysRun = true)
 	public void initializePages() {
@@ -39,12 +47,30 @@ public class ShoppingCartTests extends BaseTest {
 		searchResultsPage = new SearchResultsPage(driver);
 		buildYourOwnComputerPage = new BuildYourOwnComputerPage(driver);
 		giftCardPage = new GiftCardPage(driver);
+		wishlistPage = new WishlistPage(driver);
 
+	}
+
+	private void openConfigurableProduct(ConfigurableProductData product) {
+		applicationPage.searchFromHeader(product.name());
+		searchResultsPage.openProductByName(product.name());
+	}
+
+	private void openDownloadableProduct(ProductData product) {
+		applicationPage.searchFromHeader(product.name());
+		searchResultsPage.openProductByNameAndPrice(product.name(), product.price());
 	}
 
 	private void prepareCleanCart() {
 		applicationPage.openShoppingCartFromHeader();
 		shoppingCartPage.clearCartIfNotEmpty();
+	}
+
+	private void prepareCleanWishlist() {
+
+		applicationPage.openWishlistFromHeader();
+
+		wishlistPage.clearWishlist();
 	}
 
 	private void openGiftCard(String giftCardName) {
@@ -57,22 +83,40 @@ public class ShoppingCartTests extends BaseTest {
 		loginPage.login(ConfigReader.getProperty("validEmail"), ConfigReader.getProperty("validPassword"));
 	}
 
-	private void openSimpleProduct() {
-		applicationPage.searchFromHeader("Computing and Internet");
-		searchResultsPage.openProductByName("Computing and Internet");
+	private void openSimpleProduct(ProductData product) {
+		applicationPage.searchFromHeader(product.name());
+
+		searchResultsPage.openProductByNameAndPrice(product.name(), product.price());
 	}
 
-	private void openBuildYourOwnExpensiveComputer() {
-		applicationPage.searchFromHeader("Build your own expensive computer");
-		searchResultsPage.openProductByName("Build your own expensive computer");
+	private void completeGiftCardDetails(GiftCardData giftCard) {
+		String recipientFirstName = Randomizer.getRandomFirstName();
+		String recipientLastName = Randomizer.getRandomLastName();
+		String recipientName = recipientFirstName + " " + recipientLastName;
+
+		String recipientEmail = recipientFirstName.toLowerCase() + "." + recipientLastName.toLowerCase() + "@test.com";
+
+		String senderName = ConfigReader.getProperty("validUserName");
+		String senderEmail = ConfigReader.getProperty("validEmail");
+		String message = "Happy birthday from automation!";
+
+		if ("virtual".equalsIgnoreCase(giftCard.type())) {
+			giftCardPage.completeGiftCardDetails(recipientName, recipientEmail, senderName, senderEmail, message);
+		} else if ("physical".equalsIgnoreCase(giftCard.type())) {
+			giftCardPage.completePhysicalGiftCardDetails(recipientName, senderName, message);
+		} else {
+			throw new IllegalArgumentException("Unsupported gift card type: " + giftCard.type());
+		}
 	}
 
 	@Test(groups = { "cart", "regression" })
 	public void verifyUserCanAddSimpleProductToCart() {
 
+		simpleProduct = ProductDataReader.getRandomCartReadySimpleProduct();
+
 		loginAsValidUser();
 		prepareCleanCart();
-		openSimpleProduct();
+		openSimpleProduct(simpleProduct);
 
 		productPage.clickAddToCartButton();
 
@@ -84,22 +128,24 @@ public class ShoppingCartTests extends BaseTest {
 		Assert.assertEquals(shoppingCartPage.getPageTitleText(), "Shopping cart",
 				"Shopping cart page title is incorrect");
 
-		Assert.assertEquals(shoppingCartPage.getProductName(), "Computing and Internet",
+		Assert.assertEquals(shoppingCartPage.getProductName(), simpleProduct.name(),
 				"Product name in cart is incorrect");
-
-		Assert.assertEquals(shoppingCartPage.getProductUnitPrice(), "10.00", "Product unit price is incorrect");
-
 		Assert.assertEquals(shoppingCartPage.getProductQuantity(), "1", "Product quantity is incorrect");
 
-		Assert.assertEquals(shoppingCartPage.getProductSubtotal(), "10.00", "Product subtotal is incorrect");
+		Assert.assertEquals(shoppingCartPage.getUnitPrice(), simpleProduct.price(), "Product unit price is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getSubtotal(), simpleProduct.price(), "Product subtotal is incorrect");
+
 	}
 
 	@Test(groups = { "cart", "regression" })
 	public void verifyUserCanRemoveProductFromCart() {
 
+		simpleProduct = ProductDataReader.getRandomCartReadySimpleProduct();
+
 		loginAsValidUser();
 		prepareCleanCart();
-		openSimpleProduct();
+		openSimpleProduct(simpleProduct);
 
 		productPage.clickAddToCartButton();
 
@@ -115,32 +161,39 @@ public class ShoppingCartTests extends BaseTest {
 	@Test(groups = { "cart", "regression" })
 	public void verifyUserCanUpdateProductQuantity() {
 
+		simpleProduct = ProductDataReader.getRandomCartReadySimpleProduct();
+
+		int quantity = Randomizer.getRandomInt(2, 10);
+		String expectedTotal = String.format(Locale.US, "%.2f", simpleProduct.price() * quantity);
+
 		loginAsValidUser();
 		prepareCleanCart();
-		openSimpleProduct();
+		openSimpleProduct(simpleProduct);
 
 		productPage.clickAddToCartButton();
 
 		productPage.openShoppingCartFromSuccessMessage();
 
-		shoppingCartPage.updateQuantity("2");
+		shoppingCartPage.updateQuantity(String.valueOf(quantity));
 		shoppingCartPage.clickUpdateCartButton();
 
-		Assert.assertEquals(shoppingCartPage.getProductQuantity(), "2", "Product quantity was not updated");
+		Assert.assertEquals(shoppingCartPage.getProductQuantity(), String.valueOf(quantity),
+				"Product quantity was not updated");
 
-		Assert.assertEquals(shoppingCartPage.getProductSubtotal(), "20.00", "Product subtotal is incorrect");
+		Assert.assertEquals(shoppingCartPage.getProductSubtotal(), expectedTotal, "Product subtotal is incorrect");
 
-		Assert.assertEquals(shoppingCartPage.getCartTotal(), "20.00", "Cart total is incorrect");
+		Assert.assertEquals(shoppingCartPage.getCartTotal(), expectedTotal, "Cart total is incorrect");
+
 	}
 
 	@Test(groups = { "cart", "regression" })
 	public void verifyShoppingCartHeaderQuantityUpdatesAfterAddingProduct() {
 
+		simpleProduct = ProductDataReader.getRandomCartReadySimpleProduct();
+
 		loginAsValidUser();
-
 		prepareCleanCart();
-
-		openSimpleProduct();
+		openSimpleProduct(simpleProduct);
 
 		productPage.clickAddToCartButton();
 
@@ -151,24 +204,22 @@ public class ShoppingCartTests extends BaseTest {
 	}
 
 	@Test(groups = { "cart", "regression" })
-	public void verifyConfiguredComputerCanBeAddedToCartWithCorrectPrice() {
+	public void verifyRandomConfigurableComputerCanBeAddedToCartWithCorrectPrice() {
+
+		ConfigurableProductData configurableProduct = ProductDataReader.getRandomConfigurableProduct();
 
 		loginAsValidUser();
-
 		prepareCleanCart();
+		openConfigurableProduct(configurableProduct);
 
-		openBuildYourOwnExpensiveComputer();
-
-		ComputerConfiguration configuration = buildYourOwnComputerPage.buildComputer("Fast", "8GB", "400 GB",
-				List.of("Image Viewer", "Office Suite", "Other Office Suite"));
+		ComputerConfiguration configuration = buildYourOwnComputerPage.buildRandomComputer(configurableProduct);
 
 		productPage.clickAddToCartButton();
-
 		productPage.openShoppingCartFromSuccessMessage();
 
 		String attributes = shoppingCartPage.getProductAttributes();
 
-		Assert.assertEquals(shoppingCartPage.getProductName(), "Build your own expensive computer",
+		Assert.assertEquals(shoppingCartPage.getProductName(), configurableProduct.name(),
 				"Product name in cart is incorrect");
 
 		Assert.assertTrue(attributes.contains(configuration.processor()),
@@ -189,109 +240,94 @@ public class ShoppingCartTests extends BaseTest {
 				"Computer subtotal is incorrect");
 
 		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice(), "Cart total is incorrect");
-	}
-
-	@Test(groups = { "cart", "regression" })
-	public void verifyRandomComputerConfigurationCanBeAddedToCartWithCorrectPrice() {
-
-		loginAsValidUser();
-
-		prepareCleanCart();
-
-		openBuildYourOwnExpensiveComputer();
-
-		ComputerConfiguration configuration = buildYourOwnComputerPage.buildRandomComputer();
-
-		productPage.clickAddToCartButton();
-
-		productPage.openShoppingCartFromSuccessMessage();
-
-		String attributes = shoppingCartPage.getProductAttributes();
 
 		logger.info("""
 
-				===== CART DATA =====
+				===== CONFIGURABLE PRODUCT TEST =====
+
+				Product     : {}
+				Processor   : {}
+				RAM         : {}
+				HDD         : {}
+				Software    : {}
 
 				Attributes:
 				{}
 
-				Unit Price : {}
-				Subtotal   : {}
-				Order Total: {}
+				Unit Price  : {}
+				Subtotal    : {}
+				Order Total : {}
 
-				=====================
+				Expected Price : {}
 
-				""", attributes, shoppingCartPage.getUnitPrice(), shoppingCartPage.getSubtotal(),
-				shoppingCartPage.getOrderTotal());
+				=====================================
 
-		Assert.assertTrue(attributes.contains(configuration.processor()));
-		Assert.assertTrue(attributes.contains(configuration.ram()));
-		Assert.assertTrue(attributes.contains(configuration.hdd()));
-
-		for (String software : configuration.software()) {
-			Assert.assertTrue(attributes.contains(software));
-		}
-
-		Assert.assertEquals(shoppingCartPage.getUnitPrice(), configuration.expectedPrice());
-		Assert.assertEquals(shoppingCartPage.getSubtotal(), configuration.expectedPrice());
-		Assert.assertEquals(shoppingCartPage.getOrderTotal(), configuration.expectedPrice());
-
+				""", configurableProduct.name(), configuration.processor(), configuration.ram(), configuration.hdd(),
+				configuration.software(), attributes, shoppingCartPage.getUnitPrice(), shoppingCartPage.getSubtotal(),
+				shoppingCartPage.getOrderTotal(), configuration.expectedPrice());
 	}
 
 	@Test(groups = { "cart", "regression" })
-	public void verifyVirtualGiftCardCanBeAddedToCart() {
+	public void verifyGiftCardCanBeAddedToCart() {
 
-		String giftCardName = "$5 Virtual Gift Card";
+		GiftCardData giftCard = ProductDataReader.getRandomGiftCard();
 
 		loginAsValidUser();
-
 		prepareCleanCart();
+		openGiftCard(giftCard.name());
 
-		openGiftCard(giftCardName);
-
-		giftCardPage.completeGiftCardDetails("John Recipient", "john.recipient@test.com", "Automation Tester",
-				"automation_tester@test.com", "Happy birthday from automation!");
+		completeGiftCardDetails(giftCard);
 
 		productPage.clickAddToCartButton();
 
 		productPage.openShoppingCartFromSuccessMessage();
 
-		Assert.assertEquals(shoppingCartPage.getProductName(), giftCardName,
+		Assert.assertEquals(shoppingCartPage.getProductName(), giftCard.name(),
 				"Gift card product name in cart is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getUnitPrice(), giftCard.price(), "Gift card unit price is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getSubtotal(), giftCard.price(), "Gift card subtotal is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getOrderTotal(), giftCard.price(), "Gift card cart total is incorrect");
 	}
 
 	@Test(groups = { "cart", "regression" })
-	public void verifyVirtualGiftCardRequiredFieldsValidation() {
+	public void verifyGiftCardRequiredFieldsValidation() {
 
-		String giftCardName = "$5 Virtual Gift Card";
+		GiftCardData giftCard = ProductDataReader.getRandomGiftCard();
 
 		loginAsValidUser();
-
 		prepareCleanCart();
-
-		openGiftCard(giftCardName);
+		openGiftCard(giftCard.name());
 
 		productPage.clickAddToCartButton();
 
-		Assert.assertTrue(giftCardPage.isRecipientNameValidationDisplayed(),
-				"Recipient name validation message is not displayed");
+		if (Boolean.TRUE.equals(giftCard.requiresRecipientName())) {
+			Assert.assertTrue(giftCardPage.isRecipientNameValidationDisplayed(),
+					"Recipient name validation message is not displayed");
+		}
 
-		Assert.assertTrue(giftCardPage.isRecipientEmailValidationDisplayed(),
-				"Recipient email validation message is not displayed");
+		if (Boolean.TRUE.equals(giftCard.requiresRecipientEmail())) {
+			Assert.assertTrue(giftCardPage.isRecipientEmailValidationDisplayed(),
+					"Recipient email validation message is not displayed");
+		}
 	}
 
 	@Test(groups = { "cart", "regression" })
 	public void verifyVirtualGiftCardRejectsInvalidRecipientEmail() {
 
-		String giftCardName = "$5 Virtual Gift Card";
+		GiftCardData giftCard = ProductDataReader.getRandomVirtualGiftCard();
+
+		String recipientFirstName = Randomizer.getRandomFirstName();
+		String recipientLastName = Randomizer.getRandomLastName();
+		String recipientName = recipientFirstName + " " + recipientLastName;
 
 		loginAsValidUser();
-
 		prepareCleanCart();
+		openGiftCard(giftCard.name());
 
-		openGiftCard(giftCardName);
-
-		giftCardPage.enterRecipientName("John Recipient");
+		giftCardPage.enterRecipientName(recipientName);
 		giftCardPage.enterRecipientEmail("invalid-email");
 
 		productPage.clickAddToCartButton();
@@ -303,18 +339,23 @@ public class ShoppingCartTests extends BaseTest {
 	@Test(groups = { "cart", "regression" })
 	public void verifyVirtualGiftCardDetailsAreDisplayedInShoppingCart() {
 
-		String giftCardName = "$5 Virtual Gift Card";
-		String recipientName = "John Recipient";
-		String recipientEmail = "john.recipient@test.com";
-		String senderName = "Automation Tester";
-		String senderEmail = "automation_tester@test.com";
+		GiftCardData giftCard = ProductDataReader.getRandomVirtualGiftCard();
+
+		String recipientFirstName = Randomizer.getRandomFirstName();
+		String recipientLastName = Randomizer.getRandomLastName();
+		String recipientName = recipientFirstName + " " + recipientLastName;
+
+		String recipientEmail = recipientFirstName.toLowerCase() + "." + recipientLastName.toLowerCase() + "@test.com";
+
+		String senderName = ConfigReader.getProperty("validUserName");
+		String senderEmail = ConfigReader.getProperty("validEmail");
 		String message = "Happy birthday from automation!";
 
 		loginAsValidUser();
 
 		prepareCleanCart();
 
-		openGiftCard(giftCardName);
+		openGiftCard(giftCard.name());
 
 		giftCardPage.completeGiftCardDetails(recipientName, recipientEmail, senderName, senderEmail, message);
 
@@ -323,6 +364,7 @@ public class ShoppingCartTests extends BaseTest {
 		productPage.openShoppingCartFromSuccessMessage();
 
 		String attributes = shoppingCartPage.getProductAttributes();
+
 		Assert.assertTrue(attributes.contains("From: " + senderName + " <" + senderEmail + ">"),
 				"Sender details are not displayed in cart");
 
@@ -330,4 +372,104 @@ public class ShoppingCartTests extends BaseTest {
 				"Recipient details are not displayed in cart");
 	}
 
+	@Test(groups = { "cart", "regression" })
+	public void verifyDownloadableProductCanBeAddedToCart() {
+
+		ProductData downloadableProduct = ProductDataReader.getRandomDownloadableProduct();
+
+		loginAsValidUser();
+
+		prepareCleanCart();
+
+		openDownloadableProduct(downloadableProduct);
+
+		Assert.assertEquals(productPage.getProductPrice(), downloadableProduct.price(),
+				"Incorrect downloadable product was opened");
+
+		productPage.clickAddToCartButton();
+
+		productPage.openShoppingCartFromSuccessMessage();
+
+		Assert.assertEquals(shoppingCartPage.getProductName(), downloadableProduct.name(),
+				"Downloadable product name in cart is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getUnitPrice(), downloadableProduct.price(),
+				"Downloadable product unit price is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getSubtotal(), downloadableProduct.price(),
+				"Downloadable product subtotal is incorrect");
+
+		Assert.assertEquals(shoppingCartPage.getOrderTotal(), downloadableProduct.price(),
+				"Downloadable product cart total is incorrect");
+	}
+
+	@Test(groups = { "wishlist", "regression" })
+	public void verifyWishlistReadyProductCanBeAddedToWishlist() {
+
+		ProductData product = ProductDataReader.getRandomWishlistReadySimpleProduct();
+
+		loginAsValidUser();
+		prepareCleanWishlist();
+
+		openSimpleProduct(product);
+
+		productPage.clickAddToWishlistButton();
+
+		Assert.assertEquals(productPage.getAddToWishlistSuccessMessage(), "The product has been added to your wishlist",
+				"Add to wishlist success message is incorrect");
+
+		productPage.openWishlistFromSuccessMessage();
+
+		Assert.assertEquals(wishlistPage.getPageTitleText(), "Wishlist", "Wishlist page title is incorrect");
+
+		Assert.assertEquals(wishlistPage.getProductName(), product.name(), "Wishlist product name is incorrect");
+	}
+
+	@Test(groups = { "wishlist", "regression" })
+	public void verifyWishlistReadyProductCanBeRemovedFromWishlist() {
+
+		ProductData product = ProductDataReader.getRandomWishlistReadySimpleProduct();
+
+		loginAsValidUser();
+		prepareCleanWishlist();
+
+		openSimpleProduct(product);
+
+		productPage.clickAddToWishlistButton();
+		productPage.openWishlistFromSuccessMessage();
+
+		Assert.assertEquals(wishlistPage.getProductName(), product.name(), "Wishlist product name is incorrect");
+
+		wishlistPage.selectRemoveProductCheckbox();
+		wishlistPage.clickUpdateWishlistButton();
+
+		Assert.assertTrue(wishlistPage.getWishlistContentText().contains("The wishlist is empty"),
+				"Wishlist empty message is not displayed");
+	}
+
+	@Test(groups = { "catalog", "regression" })
+	public void verifyViewOnlyProductDoesNotSupportShoppingActions() {
+
+		ProductData product = ProductDataReader.getRandomViewOnlySimpleProduct();
+
+		openSimpleProduct(product);
+
+		logger.warn("""
+
+				===== VIEW ONLY PRODUCT =====
+
+				Product : {}
+				Availability : {}
+				Note    : {}
+
+				=============================
+
+				""", product.name(), product.availability(), product.note());
+
+		Assert.assertFalse(productPage.isAddToCartButtonDisplayed(),
+				"View-only product should not have Add to cart button");
+
+		Assert.assertFalse(productPage.isAddToWishlistButtonDisplayed(),
+				"View-only product should not have Add to wishlist button");
+	}
 }

@@ -13,6 +13,7 @@ public class GiftCardPage extends ProductPage {
 	private By messageField = By.cssSelector(".message");
 	private By validationMessages = By.cssSelector("#bar-notification .content");
 
+
 	public GiftCardPage(WebDriver driver) {
 		super(driver);
 	}
@@ -35,6 +36,12 @@ public class GiftCardPage extends ProductPage {
 
 	public void enterMessage(String message) {
 		type(messageField, message);
+	}
+
+	public void completePhysicalGiftCardDetails(String recipientName, String senderName, String message) {
+		enterRecipientName(recipientName);
+		enterSenderName(senderName);
+		enterMessage(message);
 	}
 
 	public void completeGiftCardDetails(String recipientName, String recipientEmail, String senderName,
@@ -62,4 +69,11 @@ public class GiftCardPage extends ProductPage {
 		return getValidationText().contains("Enter valid recipient email");
 	}
 
+	public boolean isSenderNameValidationDisplayed() {
+	    return getValidationText().contains("Enter valid sender name");
+	}
+
+	public boolean isSenderEmailValidationDisplayed() {
+	    return getValidationText().contains("Enter valid sender email");
+	}
 }
