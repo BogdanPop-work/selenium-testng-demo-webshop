@@ -26,6 +26,9 @@ public class ShoppingCartPage extends BasePage {
 	private By orderTotal = By.cssSelector(".order-total");
 	private By productAttributes = By.cssSelector(".cart-item-row .attributes");
 	private By removeCheckboxes = By.cssSelector("input[name='removefromcart']");
+	private By termsOfServiceCheckbox = By.id("termsofservice");
+	private By checkoutButton = By.id("checkout");
+	private By termsWarningPopup = By.id("terms-of-service-warning-box");
 
 	public ShoppingCartPage(WebDriver driver) {
 		super(driver);
@@ -77,6 +80,22 @@ public class ShoppingCartPage extends BasePage {
 
 	public boolean hasProducts() {
 		return driver.findElements(cartRows).size() > 0;
+	}
+
+	public void acceptTermsOfService() {
+		click(termsOfServiceCheckbox);
+	}
+
+	public void clickCheckout() {
+		click(checkoutButton);
+	}
+
+	public boolean isTermsWarningDisplayed() {
+		return isDisplayed(termsWarningPopup);
+	}
+
+	public String getTermsWarningText() {
+		return getText(termsWarningPopup);
 	}
 
 	public void clearCartIfNotEmpty() {

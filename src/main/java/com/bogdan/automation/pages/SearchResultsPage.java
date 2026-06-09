@@ -7,6 +7,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Represents the Search page and search results.
@@ -197,9 +198,15 @@ public class SearchResultsPage extends BasePage {
 
 	public void openProductByNameAndPrice(String productName, double expectedPrice) {
 
-		List<WebElement> products = driver.findElements(productItems);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(productItems));
 
-		for (WebElement product : products) {
+		int productCount = driver.findElements(productItems).size();
+
+		for (int i = 0; i < productCount; i++) {
+
+			List<WebElement> products = driver.findElements(productItems);
+
+			WebElement product = products.get(i);
 
 			String name = product.findElement(By.cssSelector(".product-title a")).getText().trim();
 
@@ -214,7 +221,5 @@ public class SearchResultsPage extends BasePage {
 		throw new RuntimeException(
 				"Product was not found in search results: " + productName + " with price " + expectedPrice);
 	}
-	
-
 
 }

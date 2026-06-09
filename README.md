@@ -34,6 +34,8 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * DriverManager with ThreadLocal WebDriver support
 * TestNG Listeners
 * Automatic screenshot capture on test failure
+* Luhn-valid credit card generation
+* Dynamic Purchase Order number generation
 
 ---
 
@@ -398,25 +400,102 @@ Notes:
 
 ---
 
-## Upcoming Phases
-
 ### Phase 6 – Checkout
 
-Planned scenarios:
+Status: ✅ In Progress
 
-* Guest checkout
-* Registered user checkout
-* Billing address validation
-* Shipping address validation
-* Shipping method selection
-* Payment method selection
-* Order review
-* Order confirmation
-* End-to-end purchase flow
+#### Step 1 – Registered User Checkout Entry
 
-Status: ⬜ Not started
+Implemented scenarios:
+
+* Open checkout as a registered user
+* Validate checkout page structure
+* Validate Terms of Service blocking behavior
+* Validate checkout opens only after Terms of Service acceptance
+
+Status: ✅ Complete
 
 ---
+
+#### Step 2 – Address and Shipping Flow
+
+Implemented scenarios:
+
+* Complete billing address step
+* Reuse saved billing address when available
+* Generate customer name dynamically using Randomizer
+* Continue through shipping address step
+* Select Ground shipping method
+* Validate payment method step is reached after shipping method selection
+
+Status: ✅ Complete
+
+---
+
+#### Step 3 – Payment Methods
+
+Implemented scenarios:
+
+* Cash On Delivery payment
+* Check / Money Order payment
+* Credit Card payment
+* Purchase Order payment
+
+Validated behavior:
+
+* Cash On Delivery displays the expected COD payment message
+* Check / Money Order displays the Tricentis payment instructions
+* Credit Card payment accepts generated valid card data
+* Purchase Order payment accepts generated PO numbers
+* All payment methods correctly reach the Confirm Order step
+
+Status: ✅ Complete
+
+---
+
+#### Step 4 – Credit Card Test Data Generation
+
+Implemented functionality:
+
+* FakeCreditCardGenerator utility
+* Luhn-valid credit card number generation
+* Visa card number generation
+* MasterCard card number generation
+* Discover card number generation
+* Amex card number generation
+* Dynamic expiration month generation
+* Dynamic future expiration year generation
+* Dynamic card code generation
+
+Notes:
+
+* Credit card numbers are generated dynamically instead of hardcoded.
+* Generated card numbers pass Luhn validation.
+* The cardholder name is aligned with the generated checkout customer name.
+* This makes the credit card checkout flow more realistic and portfolio-relevant.
+
+Status: ✅ Complete
+
+---
+
+#### Step 5 – Order Confirmation
+
+Implemented scenarios:
+
+* Confirm completed checkout order
+* Validate successful order completion message
+* Validate order number is generated after confirmation
+
+Status: ✅ Complete
+
+---
+
+Notes:
+
+* Credit card test data is generated dynamically using the FakeCreditCardGenerator utility.
+* Generated card numbers include a valid Luhn checksum and are accepted by the application.
+* Purchase Order scenarios use dynamically generated PO numbers.
+* Billing address and payment information use consistent customer data during checkout execution.
 
 ## TestNG Suites
 
@@ -600,6 +679,54 @@ Benefits:
 * Reporting integration ready
 
 ---
+
+### FakeCreditCardGenerator
+
+Provides dynamic generation of valid credit card test data for checkout automation.
+
+Current functionality:
+
+* Visa card generation
+* MasterCard generation
+* Discover card generation
+* American Express generation
+* Dynamic expiration month generation
+* Dynamic future expiration year generation
+* Dynamic CVV generation
+* Luhn algorithm validation support
+
+Implementation details:
+
+* Card numbers are generated dynamically based on the selected card type.
+* Generated card numbers include a valid Luhn checksum digit.
+* The framework calculates the final checksum using the Luhn algorithm to produce realistic card numbers accepted by the application.
+
+Benefits:
+
+* Eliminates hardcoded credit card data
+* Improves realism of checkout testing
+* Supports multiple payment providers
+* Reduces maintenance effort
+* Demonstrates real-world test data generation techniques
+
+---
+
+### PurchaseOrderGenerator
+
+Provides dynamic generation of Purchase Order numbers for checkout automation.
+
+Current functionality:
+
+* Unique PO number generation
+* UUID-based identifier creation
+
+Example output:
+
+```text
+PO-A1B2C3D4
+PO-8F4E91AA
+```
+
 
 ## Models
 
