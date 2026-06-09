@@ -121,18 +121,6 @@
 		},
 
 		{
-		  "name": "TCP Coaching day",
-		  "category": "Computers",
-		  "subcategory": "Accessories",
-		  "price": 1000.00,
-		  "oldPrice": null,
-		  "description": null,
-		  "availability": null,
-		  "supportedAction": "add_to_cart",
-		  "note": null
-		},
-
-		{
 		  "name": "TCP Instructor Led Training",
 		  "category": "Computers",
 		  "subcategory": "Accessories",
@@ -344,7 +332,7 @@
 			  "oldPrice": null,
 			  "description": null,
 			  "availability": "Out of stock",
-			  "supportedAction": "view_only",
+			  "supportedAction": "To be changed as viewOnly or in Stock",
 			  "note": "Product is shown as Out of stock but Add to cart action returns an Out of stock message."
 			
 		},

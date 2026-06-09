@@ -4,6 +4,7 @@ import com.bogdan.automation.utils.ConfigReader;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Represents application-level navigation actions used by smoke tests.
@@ -14,6 +15,7 @@ public class ApplicationPage extends BasePage {
 	private By searchBox = By.id("small-searchterms");
 	private By searchButton = By.cssSelector("input.search-box-button");
 	private By wishlistLink = By.cssSelector(".ico-wishlist");
+	private By barNotification = By.id("bar-notification");
 
 	public ApplicationPage(WebDriver driver) {
 		super(driver);
@@ -36,6 +38,11 @@ public class ApplicationPage extends BasePage {
 	}
 
 	public void openShoppingCartFromHeader() {
+
+		if (driver.findElements(barNotification).size() > 0) {
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(barNotification));
+		}
+
 		click(shoppingCartLink);
 	}
 
@@ -46,5 +53,13 @@ public class ApplicationPage extends BasePage {
 
 	public void openWishlistFromHeader() {
 		click(wishlistLink);
+	}
+
+	public boolean isLogoutLinkDisplayed() {
+		return driver.findElements(By.cssSelector(".ico-logout")).size() > 0;
+	}
+
+	public void clickLogout() {
+		click(By.cssSelector(".ico-logout"));
 	}
 }

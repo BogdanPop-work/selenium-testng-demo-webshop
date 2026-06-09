@@ -8,34 +8,43 @@ import org.openqa.selenium.WebDriver;
  */
 public class LoginPage extends BasePage {
 
-    private By emailField = By.id("Email");
-    private By passwordField = By.id("Password");
-    private By loginButton = By.cssSelector("input.login-button");
-    private By loginErrorMessage = By.cssSelector(".message-error");
+	private By emailField = By.id("Email");
+	private By passwordField = By.id("Password");
+	private By loginButton = By.cssSelector("input.login-button");
+	private By loginErrorMessage = By.cssSelector(".message-error");
+	private By checkoutAsGuestButton = By.cssSelector("input.checkout-as-guest-button");
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
+	public LoginPage(WebDriver driver) {
+		super(driver);
+	}
 
-    public void enterEmail(String email) {
-        type(emailField, email);
-    }
+	public void enterEmail(String email) {
+		type(emailField, email);
+	}
 
-    public void enterPassword(String password) {
-        type(passwordField, password);
-    }
+	public void enterPassword(String password) {
+		type(passwordField, password);
+	}
 
-    public void clickLoginButton() {
-        click(loginButton);
-    }
+	public void clickLoginButton() {
+		click(loginButton);
+	}
 
-    public void login(String email, String password) {
-        enterEmail(email);
-        enterPassword(password);
-        clickLoginButton();
-    }
+	public void login(String email, String password) {
+		enterEmail(email);
+		enterPassword(password);
+		clickLoginButton();
+	}
 
-    public String getLoginErrorMessage() {
-        return getText(loginErrorMessage);
-    }
+	public String getLoginErrorMessage() {
+		return getText(loginErrorMessage);
+	}
+
+	public boolean isCheckoutAsGuestButtonDisplayed() {
+		return isDisplayed(checkoutAsGuestButton);
+	}
+
+	public void clickCheckoutAsGuestButton() {
+		click(checkoutAsGuestButton);
+	}
 }

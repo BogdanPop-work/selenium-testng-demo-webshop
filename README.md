@@ -71,6 +71,9 @@ src
 │           ├── pages
 │           └── utils
 │               ├── ConfigReader
+│               ├── FakeCreditCardGenerator
+│               ├── ProductDataReader
+│               ├── PurchaseOrderGenerator
 │               ├── Randomizer
 │               ├── ScreenshotUtils
 │               └── TestDataGenerator
@@ -82,9 +85,15 @@ src
             ├── listeners
             │   └── TestListener
             └── tests
+                ├── authentication
+                ├── checkout
+                ├── e2e
+                ├── product
+                ├── registration
+                ├── search
+                ├── shoppingcart
+                └── wishlist
 ```
-
----
 
 ## Completed Phases
 
@@ -497,6 +506,59 @@ Notes:
 * Purchase Order scenarios use dynamically generated PO numbers.
 * Billing address and payment information use consistent customer data during checkout execution.
 
+### Phase 7 – End-to-End User Journeys
+
+Status: ✅ Complete
+
+#### Step 1 – Guest Checkout
+
+Implemented scenario:
+
+* Complete checkout as a guest user
+* Validate guest checkout entry point
+* Complete billing address step
+* Complete shipping and payment flow
+* Confirm order successfully
+
+Status: ✅ Complete
+
+---
+
+#### Step 2 – Registered User End-to-End Purchase Flow
+
+Implemented scenario:
+
+* Register a new user
+* Log in with the newly created account
+* Add multiple products to cart
+* Validate cart contents before checkout
+* Complete billing address flow
+* Complete shipping and payment flow
+* Confirm order successfully
+* Open Order Details page
+* Validate order information
+* Validate billing and shipping information
+* Validate purchased products section
+
+Status: ✅ Complete
+
+---
+
+#### Step 3 – Order Details Validation
+
+Implemented validations:
+
+* Order Details page is accessible after purchase
+* Order number is displayed
+* Order status is displayed
+* Order total is displayed
+* Billing address section is displayed
+* Shipping address section is displayed
+* Purchased products section is displayed
+
+Status: ✅ Complete
+```
+
 ## TestNG Suites
 
 ### Smoke Suite
@@ -795,11 +857,21 @@ Benefits:
 
 ## Current Automation Coverage
 
+## Current Automation Coverage
+
 ```text
 Phase 1 - Smoke                    ✅ Complete
 Phase 2 - Authentication           ✅ Complete
 Phase 3 - Registration             ✅ Complete
-Phase 4 - Product Catalog          ✅ Complete
+
+Phase 4 - Product Catalog
+  Step 1 - Product Search          ✅ Complete
+  Step 2 - Advanced Search         ✅ Complete
+  Step 3 - Search Filters          ✅ Complete
+  Step 4 - Search Sorting          ✅ Complete
+  Step 5 - Product Details         ✅ Complete
+  Step 6 - Product Types           ✅ Complete
+  Step 7 - Product Catalog Scanner ✅ Complete
 
 Phase 5 - Shopping Cart
   Step 1 - Basic Cart              ✅ Complete
@@ -815,7 +887,17 @@ Additional Coverage
   ✓ Multi-product cart validation
   ✓ Dynamic cart total calculation
 
-Phase 6 - Checkout                 ⬜ Not Started
+Phase 6 - Checkout
+  Step 1 - Checkout Entry          ✅ Complete
+  Step 2 - Address & Shipping Flow ✅ Complete
+  Step 3 - Payment Methods         ✅ Complete
+  Step 4 - Credit Card Generation  ✅ Complete
+  Step 5 - Order Confirmation      ✅ Complete
+
+Phase 7 - End-to-End User Journeys
+  Step 1 - Guest Checkout          ✅ Complete
+  Step 2 - Registered User E2E     ✅ Complete
+  Step 3 - Order Details Validation✅ Complete
 ```
 
 ---

@@ -18,7 +18,6 @@ public class ShoppingCartPage extends BasePage {
 	private By updateCartButton = By.cssSelector("input.update-cart-button");
 	private By emptyCartMessage = By.cssSelector(".order-summary-content");
 	private By quantityField = By.cssSelector(".qty-input");
-	private By cartTotal = By.cssSelector(".order-total strong");
 	private By cartRows = By.cssSelector(".cart-item-row");
 	private By shoppingCartQuantity = By.cssSelector("span.cart-qty");
 	private By unitPrice = By.cssSelector(".product-unit-price");
@@ -29,6 +28,7 @@ public class ShoppingCartPage extends BasePage {
 	private By termsOfServiceCheckbox = By.id("termsofservice");
 	private By checkoutButton = By.id("checkout");
 	private By termsWarningPopup = By.id("terms-of-service-warning-box");
+	private By cartTotalStrong = By.cssSelector(".order-total strong");
 
 	public ShoppingCartPage(WebDriver driver) {
 		super(driver);
@@ -75,7 +75,12 @@ public class ShoppingCartPage extends BasePage {
 	}
 
 	public String getCartTotal() {
-		return getText(cartTotal);
+
+		if (driver.findElements(cartTotalStrong).size() > 0) {
+			return getText(cartTotalStrong).trim();
+		}
+
+		return getText(orderTotal).replace("Order Total:", "").trim();
 	}
 
 	public boolean hasProducts() {

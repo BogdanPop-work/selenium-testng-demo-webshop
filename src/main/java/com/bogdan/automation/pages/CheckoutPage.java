@@ -32,18 +32,14 @@ public class CheckoutPage extends BasePage {
 	private By groundShipping = By.id("shippingoption_0");
 	private By shippingMethodContinueButton = By.cssSelector(".shipping-method-next-step-button");
 	private By paymentMethodContent = By.id("checkout-step-payment-method");
-
 	private By cashOnDeliveryOption = By.id("paymentmethod_0");
 	private By checkMoneyOrderOption = By.id("paymentmethod_1");
 	private By creditCardOption = By.id("paymentmethod_2");
 	private By purchaseOrderOption = By.id("paymentmethod_3");
-
 	private By paymentMethodContinueButton = By.cssSelector(".payment-method-next-step-button");
 	private By paymentInfoStepContent = By.id("checkout-step-payment-info");
 	private By paymentInfoText = By.cssSelector("#checkout-payment-info-load .info");
-
 	private By paymentInfoContinueButton = By.cssSelector(".payment-info-next-step-button");
-
 	private By creditCardType = By.id("CreditCardType");
 	private By cardholderName = By.id("CardholderName");
 	private By cardNumber = By.id("CardNumber");
@@ -53,8 +49,8 @@ public class CheckoutPage extends BasePage {
 	private By confirmOrderButton = By.cssSelector(".confirm-order-next-step-button");
 	private By orderCompletedMessage = By.cssSelector(".section.order-completed .title strong");
 	private By orderNumber = By.cssSelector(".section.order-completed .details li");
-
 	private By purchaseOrderNumber = By.id("PurchaseOrderNumber");
+	private By orderDetailsLink = By.cssSelector(".section.order-completed .details a");
 
 	public CheckoutPage(WebDriver driver) {
 		super(driver);
@@ -218,4 +214,9 @@ public class CheckoutPage extends BasePage {
 		return getText(By.xpath(
 				"//span[contains(text(),'Payment method additional fee')]/ancestor::td/following-sibling::td//span[@class='product-price']"));
 	}
+
+	public void openOrderDetailsPage() {
+		click(orderDetailsLink);
+	}
+
 }

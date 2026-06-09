@@ -1,7 +1,10 @@
 package com.bogdan.automation.pages;
 
+import java.util.concurrent.TimeoutException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Represents a product details page.
@@ -64,7 +67,8 @@ public class ProductPage extends BasePage {
 	}
 
 	public void openShoppingCartFromSuccessMessage() {
-		click(shoppingCartLinkInSuccessMessage);
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(shoppingCartLinkInSuccessMessage));
+	    click(shoppingCartLinkInSuccessMessage);
 	}
 
 	public void openWishlistFromSuccessMessage() {

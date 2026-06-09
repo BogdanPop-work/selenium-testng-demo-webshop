@@ -162,7 +162,7 @@ public class ShoppingCartTests extends BaseTest {
 				"Shopping cart empty message is not displayed");
 	}
 
-	@Test(groups = { "cart", "regression" })
+	@Test(groups = { "shopping-cart", "regression" })
 	public void verifyUserCanUpdateProductQuantity() {
 
 		simpleProduct = ProductDataReader.getRandomCartReadySimpleProduct();
@@ -175,8 +175,9 @@ public class ShoppingCartTests extends BaseTest {
 		openSimpleProduct(simpleProduct);
 
 		productPage.clickAddToCartButton();
+		productPage.openShoppingCartFromSuccessMessage();
 
-		applicationPage.openShoppingCartFromHeader();
+		Assert.assertTrue(shoppingCartPage.hasProducts(), "Cart should contain product before updating quantity");
 
 		shoppingCartPage.updateQuantity(String.valueOf(quantity));
 		shoppingCartPage.clickUpdateCartButton();
@@ -187,7 +188,6 @@ public class ShoppingCartTests extends BaseTest {
 		Assert.assertEquals(shoppingCartPage.getProductSubtotal(), expectedTotal, "Product subtotal is incorrect");
 
 		Assert.assertEquals(shoppingCartPage.getCartTotal(), expectedTotal, "Cart total is incorrect");
-
 	}
 
 	@Test(groups = { "cart", "regression" })

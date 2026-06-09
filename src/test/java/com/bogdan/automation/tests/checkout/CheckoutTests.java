@@ -101,6 +101,27 @@ public class CheckoutTests extends BaseTest {
 		return new String[] { firstName, lastName };
 	}
 
+	private void openCheckoutAsGuestWithProductInCart() {
+
+		applicationPage.openHomePage();
+
+		if (applicationPage.isLogoutLinkDisplayed()) {
+			applicationPage.clickLogout();
+		}
+
+		simpleProduct = ProductDataReader.getRandomCartReadySimpleProduct();
+
+		openSimpleProduct(simpleProduct);
+
+		productPage.clickAddToCartButton();
+		productPage.openShoppingCartFromSuccessMessage();
+
+		shoppingCartPage.acceptTermsOfService();
+		shoppingCartPage.clickCheckout();
+
+		loginPage.clickCheckoutAsGuestButton();
+	}
+
 	@Test(groups = { "checkout", "regression" })
 	public void verifyCheckoutBlockedWithoutTermsAcceptance() {
 
@@ -339,5 +360,48 @@ public class CheckoutTests extends BaseTest {
 
 		Assert.assertEquals(checkoutPage.getPaymentAdditionalFee(), expectedFee,
 				paymentMethod + " should apply correct payment fee");
+	}
+
+	@Test(groups = { "checkout", "guest", "regression" })
+	public void verifyGuestUserCanCompleteCheckout() {
+
+		openCheckoutAsGuestWithProductInCart();
+
+		String[] customer = generateCustomerData();
+		String firstName = customer[0];
+		String lastName = customer[1];
+
+		submitValidBillingAddress(firstName, lastName);
+
+		Assert.assertTrue(
+				checkoutPage.isShippingStepContentDisplayed() || checkoutPage.isShippingMethodContentDisplayed(),
+				"Guest checkout should continue to shipping address or shipping method after billing");
+
+		if (checkoutPage.isShippingStepContentDisplayed()) {
+			checkoutPage.clickShippingContinueButton();
+		}
+
+		checkoutPage.selectGroundShippingMethod();
+		checkoutPage.clickShippingMethodContinueButton();
+
+		checkoutPage.selectCreditCardPaymentMethod();
+		checkoutPage.clickPaymentMethodContinueButton();
+
+		checkoutPage.fillCreditCardInformation("Visa", firstName + " " + lastName,
+				FakeCreditCardGenerator.generateVisa(), FakeCreditCardGenerator.generateExpirationMonth(),
+				FakeCreditCardGenerator.generateExpirationYear(), FakeCreditCardGenerator.generateCardCode("Visa"));
+
+		checkoutPage.clickPaymentInfoContinueButton();
+
+		Assert.assertTrue(checkoutPage.isConfirmOrderStepDisplayed(),
+				"Confirm Order step should be displayed for guest checkout");
+
+		checkoutPage.clickConfirmOrderButton();
+
+		Assert.assertEquals(checkoutPage.getOrderCompletedMessage(), "Your order has been successfully processed!",
+				"Guest order completed message is incorrect");
+
+		Assert.assertTrue(checkoutPage.getOrderNumberText().contains("Order number:"),
+				"Guest order number should be displayed");
 	}
 }
