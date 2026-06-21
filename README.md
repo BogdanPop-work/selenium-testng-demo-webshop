@@ -1,4 +1,4 @@
-# Demo Web Shop Automation Framework
+# Demo Web Shop End-to-End Test Automation Framework
 
 ## Overview
 
@@ -9,6 +9,9 @@ UI Test Automation Framework for Tricentis Demo Web Shop built using:
 * TestNG
 * Maven
 * WebDriverManager
+* H2 Database
+* JDBC
+* SQL
 
 The framework follows the Page Object Model (POM) design pattern and is being developed incrementally to simulate a real-world automation project.
 
@@ -36,6 +39,38 @@ The framework follows the Page Object Model (POM) design pattern and is being de
 * Automatic screenshot capture on test failure
 * Luhn-valid credit card generation
 * Dynamic Purchase Order number generation
+* SQL database validation
+* JDBC repository layer
+* Order lifecycle orchestration
+* Warehouse API simulation
+* Multi-layer end-to-end validation
+
+---
+
+## Continuous Integration
+
+This project uses GitHub Actions to automatically execute the full regression suite on every push and pull request to the `main` branch.
+
+### CI Pipeline
+
+- Checks out the latest source code
+- Sets up Java 21 environment
+- Restores Maven dependencies
+- Executes the TestNG regression suite
+- Reports build and test execution status directly on GitHub
+
+### Benefits
+
+- Automatic regression validation
+- Early detection of broken functionality
+- Consistent execution environment
+- Improved code quality and reliability
+
+Current regression status:
+
+```text
+70 / 70 Tests Passing
+```
 
 ---
 
@@ -67,7 +102,17 @@ src
 │           ├── driver
 │           │   ├── DriverFactory
 │           │   └── DriverManager
+│           ├── clients
+│           │   ├── WarehouseApiClient
+│           │   └── WarehouseApiResponse
+│           ├── database
+│           │   ├── DatabaseInitializer
+│           │   └── DatabaseManager
 │           ├── models
+│           ├── repositories
+│           │   └── OrderRepository
+│           ├── services
+│           │   └── OrderLifecycleService
 │           ├── pages
 │           └── utils
 │               ├── ConfigReader
@@ -86,6 +131,7 @@ src
             │   └── TestListener
             └── tests
                 ├── authentication
+                ├── database
                 ├── checkout
                 ├── e2e
                 ├── product
@@ -559,6 +605,99 @@ Implemented validations:
 Status: ✅ Complete
 ```
 
+### Phase 8 – Order Lifecycle Validation
+
+Status: ✅ Complete
+
+#### Step 1 – SQL Database Integration
+
+Implemented functionality:
+
+* H2 embedded database integration
+* JDBC database connectivity
+* Automated schema creation through `schema.sql`
+* Order persistence after successful checkout
+
+Implemented tables:
+
+* customers
+* orders
+* payments
+* shipments
+* warehouse_events
+
+Status: ✅ Complete
+
+---
+
+#### Step 2 – Repository Layer
+
+Implemented functionality:
+
+* OrderRepository
+* Order creation and persistence
+* Order existence validation
+* Warehouse status updates
+
+Status: ✅ Complete
+
+---
+
+#### Step 3 – Warehouse Integration Simulation
+
+Implemented functionality:
+
+* WarehouseApiClient
+* WarehouseApiResponse
+* Warehouse order acceptance simulation
+* Warehouse reference generation
+
+Validated behavior:
+
+* Order status updated from `COMPLETED` to `SENT_TO_WAREHOUSE`
+* Shipment status updated to `PROCESSING`
+* Warehouse event recorded successfully
+
+Status: ✅ Complete
+
+---
+
+#### Step 4 – End-to-End Order Lifecycle Validation
+
+Implemented scenario:
+
+* Complete checkout through UI
+* Extract real order number from Order Details page
+* Persist order in SQL database
+* Validate order existence in database
+* Simulate warehouse processing
+* Validate warehouse status updates
+
+End-to-end flow:
+
+```text
+Selenium UI
+      ↓
+Checkout Completed
+      ↓
+Extract Order Number
+      ↓
+OrderLifecycleService
+      ↓
+H2 Database
+      ↓
+WarehouseApiClient (Simulation)
+      ↓
+Database Validation
+```
+
+Notes:
+
+* The Demo Web Shop application does not expose backend APIs or provide database access.
+* The warehouse integration is simulated to demonstrate real-world SDET patterns.
+* The simulated client can be replaced with a real REST client in the future without changing the test flow.
+
+
 ## TestNG Suites
 
 ### Smoke Suite
@@ -898,17 +1037,59 @@ Phase 7 - End-to-End User Journeys
   Step 1 - Guest Checkout          ✅ Complete
   Step 2 - Registered User E2E     ✅ Complete
   Step 3 - Order Details Validation✅ Complete
+  
+Phase 8 - Order Lifecycle Validation
+  Step 1 - SQL Integration          ✅ Complete
+  Step 2 - Repository Layer         ✅ Complete
+  Step 3 - Warehouse Simulation     ✅ Complete
+  Step 4 - E2E Order Validation     ✅ Complete
 ```
 
 ---
 
 ## Future Framework Enhancements
 
-* Parallel execution support
-* Retry Analyzer for flaky tests
-* Extent Reports integration
-* GitHub Actions CI/CD pipeline
-* Jenkins integration
+- Parallel test execution support
+- Retry Analyzer for flaky test recovery
+- Extent Reports integration
+- Jenkins pipeline integration
+- Cross-browser execution support
+- Dockerized test execution
+- Replace H2 with PostgreSQL
+- Replace warehouse simulation with REST Assured
+- Add real API contract validation
+- Containerize database with Docker
+- API and UI hybrid automation coverage
+---
+
+## Order Lifecycle Architecture
+
+The framework extends traditional UI automation by validating the complete order lifecycle across multiple layers.
+
+Current flow:
+
+```text
+Selenium UI Test
+       ↓
+OrderLifecycleService
+       ↓
+OrderRepository
+       ↓
+H2 Database
+       ↓
+WarehouseApiClient (Simulation)
+```
+
+The implementation demonstrates:
+
+* UI automation with Selenium WebDriver
+* Database validation with JDBC
+* SQL repository pattern
+* Service layer orchestration
+* External system simulation
+
+This architecture models real-world e-commerce systems where orders are processed across multiple backend components after checkout.
+
 ---
 
 ## How to Run
